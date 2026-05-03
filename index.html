@@ -155,18 +155,25 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none;}
   font-size:12px;font-weight:600;background:var(--inp);color:var(--muted);}
 .cat-chip.on{color:#fff;}
 
-/* ── ДОБАВИТЬ ── */
-.add-area{border-top:1px solid var(--border);}
-.add-row{display:flex;align-items:center;gap:10px;padding:10px 14px;}
-.add-inp{flex:1;border:none;background:transparent;outline:none;
-  font-size:15px;color:var(--text);}
+/* ── ДОБАВИТЬ (фиксированная панель над табами) ── */
+#add-panel{
+  position:fixed;left:0;right:0;z-index:99;
+  background:var(--card);border-top:2px solid var(--border);
+  padding:10px 14px;display:none;
+  box-shadow:0 -4px 20px rgba(0,0,0,.08);
+}
+#add-panel.show{display:block;}
+.add-row{display:flex;align-items:center;gap:10px;}
+.add-inp{flex:1;border:none;background:var(--inp);border-radius:12px;outline:none;
+  font-size:16px;color:var(--text);padding:11px 14px;}
 .add-inp::placeholder{color:var(--muted);}
-.add-btn{width:32px;height:32px;border-radius:50%;background:var(--a);border:none;
-  color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;}
-.add-meta{display:flex;gap:8px;padding:0 14px 10px;flex-wrap:wrap;}
-.add-meta-btn{padding:5px 10px;border-radius:10px;border:none;
+.add-btn{width:42px;height:42px;border-radius:50%;background:var(--a);border:none;
+  color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.add-meta{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.add-meta-btn{padding:6px 12px;border-radius:10px;border:none;
   background:var(--inp);font-size:12px;font-weight:600;color:var(--muted);}
 .add-meta-btn.on{color:#fff;}
+.add-area{display:none;}
 
 /* ── ДНЕВНИК ── */
 .df{padding:13px 16px;border-bottom:1px solid var(--border);}
@@ -470,6 +477,20 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none;}
 </div>
 
 <!-- ТЕМА -->
+<!-- ФИКСИРОВАННАЯ ПАНЕЛЬ ДОБАВЛЕНИЯ -->
+<div id="add-panel">
+  <div class="add-row">
+    <input class="add-inp" id="add-inp" placeholder="Добавить задачу..."
+      onkeydown="if(event.key==='Enter'){addTask();event.preventDefault();}"/>
+    <button class="add-btn" onclick="addTask()">+</button>
+  </div>
+  <div class="add-meta" id="add-meta-row">
+    <button class="add-meta-btn" id="anew-color" onclick="pickAddColor()">● Обычная</button>
+    <button class="add-meta-btn" id="anew-cat" onclick="pickAddCat()">📂 Категория</button>
+    <button class="add-meta-btn" id="anew-time" onclick="pickAddTime()">🕐 Время</button>
+  </div>
+</div>
+
 <div id="thOv" onclick="closeTh()"></div>
 <div id="thSheet">
   <div class="bshandle" style="margin-top:12px;"></div>
@@ -776,18 +797,7 @@ function renderTasks(){
       <div class="ch"><span class="ct">${DAYS[dayIdx]}, ${fdFull(cw,dayIdx)}</span></div>
       ${catBar}
       ${rows||`<div class="empty"><div class="empty-i">📝</div>Нет задач. Добавьте первую!</div>`}
-      <div class="add-area">
-        <div class="add-row">
-          <input class="add-inp" id="add-inp" placeholder="Добавить задачу..."
-            onkeydown="if(event.key==='Enter'){addTask();event.preventDefault();}"/>
-          <button class="add-btn" onclick="addTask()">+</button>
-        </div>
-        <div class="add-meta">
-          <button class="add-meta-btn" id="anew-color" onclick="pickAddColor()" style="color:${COLORS[addColor].c}">● ${COLORS[addColor].name}</button>
-          <button class="add-meta-btn" id="anew-cat" onclick="pickAddCat()">${addCat!==null?CATS[addCat].icon+"  "+CATS[addCat].name:"📂 Категория"}</button>
-          <button class="add-meta-btn" id="anew-time" onclick="pickAddTime()">${addTime?"🕐 "+addTime:"🕐 Время"}</button>
-        </div>
-      </div>
+
     </div>`;
 }
 
@@ -1157,8 +1167,11 @@ let tx=0,ty=0;
 document.addEventListener("touchstart",e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
 document.addEventListener("touchend",e=>{
   if(tab!=="tasks"&&tab!=="diary")return;
+  // Only swipe on the content area, not on header/nav elements
+  const target=e.target;
+  if(target.closest("#hdr")||target.closest("#wnav")||target.closest("#daynav")||target.closest("#tabs"))return;
   const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
-  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>55){
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>70){
     if(dx<0){dayIdx<6?dayIdx++:(cw=shiftKey(cw,1),dayIdx=0);}
     else{dayIdx>0?dayIdx--:(cw=shiftKey(cw,-1),dayIdx=6);}
     render();
@@ -1176,6 +1189,29 @@ function render(){
   else if(tab==="stats") m.innerHTML=renderStats();
   else if(tab==="all")   m.innerHTML=renderAll();
   m.scrollTop=0;
+  // Show add panel only on tasks tab
+  const panel=document.getElementById("add-panel");
+  if(panel){
+    if(tab==="tasks"){
+      panel.classList.add("show");
+      // Position above tab bar
+      const tabH=document.getElementById("tabs").offsetHeight;
+      panel.style.bottom=tabH+"px";
+      // Update meta buttons
+      const ac=document.getElementById("anew-color");
+      const aca=document.getElementById("anew-cat");
+      const at=document.getElementById("anew-time");
+      if(ac)ac.textContent="● "+COLORS[addColor].name;
+      if(ac)ac.style.color=COLORS[addColor].c;
+      if(aca)aca.textContent=addCat!==null?CATS[addCat].icon+" "+CATS[addCat].name:"📂 Категория";
+      if(at)at.textContent=addTime?"🕐 "+addTime:"🕐 Время";
+      // Adjust content bottom padding
+      m.style.paddingBottom=(tabH+panel.offsetHeight+8)+"px";
+    } else {
+      panel.classList.remove("show");
+      m.style.paddingBottom=("calc(var(--sb) + 62px)");
+    }
+  }
 }
 
 // ══════════════════════════════════════════════

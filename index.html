@@ -27,8 +27,9 @@ input,textarea,select,button{font-family:inherit;font-size:16px;}
 button{cursor:pointer;-webkit-user-select:none;user-select:none;}
 
 /* ── ШАПКА ── */
-#sb{height:var(--st);background:var(--card);}
-#hdr{background:var(--card);border-bottom:1px solid var(--border);padding:0 16px 10px;position:relative;z-index:10;}
+#sb{height:var(--st);background:var(--card);position:sticky;top:0;z-index:200;}
+#hdr{background:var(--card);border-bottom:1px solid var(--border);padding:0 16px 10px;
+  position:sticky;top:var(--st);z-index:200;}
 .h1{display:flex;align-items:center;gap:8px;padding-top:10px;}
 .logo{font-size:22px;font-weight:800;color:var(--a);flex:1;letter-spacing:-0.5px;}
 .streak{display:flex;align-items:center;gap:4px;background:var(--inp);border-radius:10px;padding:4px 10px;}
@@ -55,24 +56,29 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none;}
 
 /* ── НЕДЕЛЯ НАВ ── */
 #wnav{background:var(--card);border-bottom:1px solid var(--border);
-  padding:8px 16px;display:flex;align-items:center;gap:8px;}
-.warr{width:40px;height:40px;border-radius:12px;border:1.5px solid var(--border);
-  background:var(--inp);color:var(--text);font-size:20px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  padding:8px 16px;display:flex;align-items:center;gap:8px;position:sticky;z-index:200;}
+.warr{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--border);
+  background:var(--inp);color:var(--text);font-size:22px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  position:relative;z-index:51;cursor:pointer;}
 .wcal-btn{flex:1;background:var(--inp);border:none;border-radius:12px;
-  padding:10px 12px;font-size:13px;font-weight:700;color:var(--text);text-align:center;}
-.wnow{width:40px;height:40px;border-radius:12px;border:none;
-  background:var(--a);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  padding:12px;font-size:13px;font-weight:700;color:var(--text);text-align:center;
+  position:relative;z-index:51;cursor:pointer;min-height:44px;}
+.wnow{width:44px;height:44px;border-radius:12px;border:none;
+  background:var(--a);font-size:18px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;z-index:51;cursor:pointer;}
 .wfut-badge{font-size:10px;font-weight:700;color:var(--a);background:rgba(74,158,127,.15);
   border-radius:6px;padding:2px 6px;margin-left:4px;}
 
 /* ── ДНИ ── */
 #daynav{background:var(--card);border-bottom:1px solid var(--border);
-  display:flex;padding:8px 12px;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  display:flex;padding:8px 12px;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  position:sticky;z-index:200;}
 #daynav::-webkit-scrollbar{display:none;}
 .dpill{flex-shrink:0;display:flex;flex-direction:column;align-items:center;
   padding:6px 9px;border-radius:13px;border:none;background:var(--inp);min-width:42px;
-  position:relative;transition:background .2s;}
+  position:relative;transition:background .2s;cursor:pointer;z-index:51;
+  -webkit-appearance:none;touch-action:manipulation;}
 .dpill.on{background:var(--a);}
 .dpill.today:not(.on){border:2px solid var(--a);}
 .ds{font-size:10px;font-weight:600;color:var(--muted);}
@@ -101,7 +107,7 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none;}
 /* ── КОНТЕНТ ── */
 #content{position:fixed;top:0;left:0;right:0;bottom:0;
   overflow-y:auto;-webkit-overflow-scrolling:touch;
-  padding-bottom:calc(var(--sb)+62px);}
+  padding-bottom:calc(var(--sb)+62px);z-index:1;isolation:isolate;}
 #content::-webkit-scrollbar{display:none;}
 
 /* ── КАРТОЧКИ ── */
@@ -589,20 +595,38 @@ function monday(date){
   const d=new Date(date),n=d.getDay(),df=n===0?-6:1-n;
   d.setDate(d.getDate()+df);d.setHours(0,0,0,0);return d;
 }
-function wkKey(date){return monday(date).toISOString().slice(0,10);}
-function shiftKey(k,n){const d=new Date(k+"T00:00:00");d.setDate(d.getDate()+n*7);return wkKey(d);}
+// ВАЖНО: используем локальное время, не UTC (toISOString даёт UTC и сдвигает дату)
+function localDateStr(date){
+  const y=date.getFullYear();
+  const m=String(date.getMonth()+1).padStart(2,"0");
+  const d=String(date.getDate()).padStart(2,"0");
+  return y+"-"+m+"-"+d;
+}
+function wkKey(date){return localDateStr(monday(date));}
+function shiftKey(k,n){
+  // Parse date parts directly to avoid timezone issues
+  const parts=k.split("-");
+  const d=new Date(+parts[0],+parts[1]-1,+parts[2]);
+  d.setDate(d.getDate()+n*7);
+  return wkKey(d);
+}
 function fd(k,off){
-  const d=new Date(k+"T00:00:00");d.setDate(d.getDate()+off);
+  const parts=k.split("-");
+  const d=new Date(+parts[0],+parts[1]-1,+parts[2]);
+  d.setDate(d.getDate()+off);
   return d.toLocaleDateString("ru-RU",{day:"2-digit",month:"2-digit"});
 }
 function fdFull(k,off){
-  const d=new Date(k+"T00:00:00");d.setDate(d.getDate()+off);
+  const parts=k.split("-");
+  const d=new Date(+parts[0],+parts[1]-1,+parts[2]);
+  d.setDate(d.getDate()+off);
   return d.toLocaleDateString("ru-RU",{day:"2-digit",month:"long"});
 }
 function fwk(k){return fd(k,0)+" – "+fd(k,6);}
 function todayIdx(){const n=new Date().getDay();return n===0?6:n-1;}
 function isFut(k){return k>wkKey(new Date());}
 function isCurWk(k){return k===wkKey(new Date());}
+function todayLocalStr(){return localDateStr(new Date());}
 function fmtDL(str){
   if(!str)return null;
   const d=new Date(str+"T00:00:00"),t=new Date();t.setHours(0,0,0,0);
@@ -681,12 +705,19 @@ function togglePbarMode(){pbarMode=pbarMode==="day"?"week":"day";renderHeader();
 // ШАПКА
 // ══════════════════════════════════════════════
 function renderHeader(){
-  // Отступ
-  const hh=document.getElementById("hdr").offsetHeight+
-           document.getElementById("sb").offsetHeight+
+  // Отступ для контента
+  const hh=document.getElementById("sb").offsetHeight+
+           document.getElementById("hdr").offsetHeight+
            document.getElementById("wnav").offsetHeight+
            document.getElementById("daynav").offsetHeight;
   document.getElementById("content").style.paddingTop=hh+"px";
+  // Fix sticky top positions
+  const sbH=document.getElementById("sb").offsetHeight;
+  const hdrH=document.getElementById("hdr").offsetHeight;
+  const wnavEl=document.getElementById("wnav");
+  const daynavEl=document.getElementById("daynav");
+  wnavEl.style.top=(sbH+hdrH)+"px";
+  daynavEl.style.top=(sbH+hdrH+wnavEl.offsetHeight)+"px";
 
   // Прогресс
   const pct=pbarMode==="day"?dayPct(cw,dayIdx):wkStats(cw).avg;
@@ -1113,7 +1144,11 @@ function saveGoal(){
 // ══════════════════════════════════════════════
 // КАЛЕНДАРЬ
 // ══════════════════════════════════════════════
-function openCal(){calViewDate=new Date(cw+"T00:00:00");renderCal();openBSheet("calSheet");}
+function openCal(){
+  const parts=cw.split("-");
+  calViewDate=new Date(+parts[0],+parts[1]-1,+parts[2]);
+  renderCal();openBSheet("calSheet");
+}
 function calMo(n){calViewDate=new Date(calViewDate);calViewDate.setMonth(calViewDate.getMonth()+n);renderCal();}
 function renderCal(){
   const y=calViewDate.getFullYear(),m=calViewDate.getMonth();

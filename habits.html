@@ -18,171 +18,133 @@
 }
 .dk{--bg:#000;--card:#1c1c1e;--text:#fff;--muted:#636366;--border:#2c2c2e;--inp:#2c2c2e;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100vh;overflow:hidden;background:var(--bg);color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;-webkit-font-smoothing:antialiased;
-  position:fixed;width:100%;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;-webkit-font-smoothing:antialiased;}
 input,textarea,select,button{font-family:inherit;font-size:16px;}
 button{cursor:pointer;}
 
-/* === LAYOUT === */
-#app{display:flex;flex-direction:column;height:100vh;width:100%;position:fixed;top:0;left:0;}
-#topbar{flex-shrink:0;background:var(–card);border-bottom:1px solid var(–border);}
-#sb{height:var(–st);}
-.h1{display:flex;align-items:center;gap:8px;padding:10px 16px 0;}
+#sb{height:var(–st);background:var(–card);position:sticky;top:0;z-index:200;}
+#hdr{background:var(–card);border-bottom:1px solid var(–border);padding:0 16px 12px;position:sticky;top:var(–st);z-index:200;}
+.h1{display:flex;align-items:center;gap:8px;padding-top:10px;}
 .logo{font-size:20px;font-weight:800;color:var(–a);flex:1;}
-.ico{width:38px;height:38px;border-radius:12px;border:none;background:var(–inp);font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-
-/* Доп статистика и график */
-.top-extra{padding:8px 16px 12px;}
-.hdr-stats{display:flex;gap:8px;}
-.hstat{flex:1;background:var(–a2);border-radius:12px;padding:8px;text-align:center;cursor:pointer;}
-.hstat-val{font-size:16px;font-weight:800;color:var(–a);}
+.ico{width:38px;height:38px;border-radius:12px;border:none;background:var(–inp);font-size:18px;display:flex;align-items:center;justify-content:center;}
+.hdr-stats{display:flex;gap:10px;margin-top:8px;}
+.hstat{flex:1;background:var(–a2);border-radius:12px;padding:8px 10px;text-align:center;}
+.hstat-val{font-size:18px;font-weight:800;color:var(–a);}
 .hstat-lbl{font-size:10px;color:var(–muted);margin-top:1px;}
 
-.weekgraph{display:flex;gap:3px;align-items:flex-end;height:32px;margin-top:8px;}
-.wgcol{flex:1;background:var(–a2);border-radius:3px;min-height:3px;position:relative;display:flex;align-items:flex-end;justify-content:center;}
-.wgfill{width:100%;background:var(–a);border-radius:3px;}
-.wglbl{position:absolute;bottom:-14px;font-size:8px;color:var(–muted);font-weight:600;}
-
-/* Навигация недели */
-#wnav{flex-shrink:0;background:var(–card);border-bottom:1px solid var(–border);
-padding:8px 16px;display:flex;align-items:center;gap:8px;}
-.warr{width:40px;height:40px;border-radius:12px;border:1.5px solid var(–border);
-background:var(–inp);color:var(–text);font-size:20px;
+/* Навигация по неделям */
+#wnav{background:var(–card);border-bottom:1px solid var(–border);
+padding:8px 16px;display:flex;align-items:center;gap:8px;position:sticky;z-index:199;}
+.warr{width:44px;height:44px;border-radius:12px;border:1.5px solid var(–border);
+background:var(–inp);color:var(–text);font-size:22px;
 display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
-.wlbl{flex:1;text-align:center;font-size:13px;font-weight:700;background:var(–inp);
-border-radius:12px;padding:10px 8px;cursor:pointer;border:none;color:var(–text);
-position:relative;z-index:5;-webkit-tap-highlight-color:rgba(124,92,191,.2);}
-.wlbl:active{background:var(–border);}
-.wnow{width:40px;height:40px;border-radius:12px;border:none;
-background:var(–a);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;color:#fff;}
+.wlbl{flex:1;text-align:center;font-size:13px;font-weight:700;}
+.wnow{width:44px;height:44px;border-radius:12px;border:none;
+background:var(–a);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
 
-/* Контент */
-#content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
-padding:12px 0 calc(140px + var(–sb));}
-#content::-webkit-scrollbar{display:none;}
-
-/* Табы */
-#tabs{flex-shrink:0;position:fixed;bottom:0;left:0;right:0;z-index:100;
-background:var(–card);border-top:1px solid var(–border);display:flex;padding-bottom:var(–sb);}
+/* Вкладки */
+#tabs{position:fixed;bottom:0;left:0;right:0;z-index:150;
+background:var(–card);border-top:1px solid var(–border);display:flex;padding-bottom:var(–sb);
+pointer-events:auto;}
 .tb{flex:1;display:flex;flex-direction:column;align-items:center;
-padding:8px 0;border:none;background:transparent;gap:2px;cursor:pointer;}
+padding:8px 0;border:none;background:transparent;gap:2px;}
 .tbi{font-size:22px;}.tbl{font-size:10px;font-weight:500;color:var(–muted);}
 .tb.on .tbl{color:var(–a);}
 
-/* === КАРТОЧКИ === */
-.card{background:var(–card);border-radius:16px;margin:0 16px 12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+#content{position:fixed;top:0;left:0;right:0;bottom:0;
+overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(–sb)+80px);}
+#content::-webkit-scrollbar{display:none;}
+#content{pointer-events:auto;}
+
+/* Карточки */
+.card{background:var(–card);border-radius:16px;margin:0 16px 12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07);}
 .ch{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(–border);}
 .ct{font-size:15px;font-weight:700;}.cb{font-size:12px;color:var(–muted);}
 
-/* Привычки */
-.hab-row{padding:14px 16px;border-bottom:1px solid var(–border);position:relative;cursor:pointer;}
+/* Привычка строка */
+.hab-row{padding:14px 16px;border-bottom:1px solid var(–border);position:relative;cursor:pointer;z-index:10;}
 .hab-row:last-child{border-bottom:none;}
 .hab-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
 .hab-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.hab-info{flex:1;min-width:0;}
+.hab-info{flex:1;}
 .hab-name{font-size:15px;font-weight:700;}
-.hab-meta{display:flex;gap:8px;align-items:center;margin-top:3px;flex-wrap:wrap;}
+.hab-meta{display:flex;gap:8px;align-items:center;margin-top:3px;}
 .hab-streak{font-size:12px;font-weight:700;color:#ff9500;}
 .hab-pct{font-size:12px;color:var(–muted);}
+.hab-edit{border:none;background:transparent;font-size:16px;opacity:.4;padding:4px;}
 
-/* Неделя - дни */
+/* Дни недели чекбоксы */
 .week-days{display:flex;gap:4px;}
 .day-check{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
 .day-lbl{font-size:9px;font-weight:700;color:var(–muted);}
 .day-btn{width:100%;aspect-ratio:1;border-radius:50%;border:2px solid var(–border);
 background:transparent;display:flex;align-items:center;justify-content:center;
-font-size:11px;font-weight:700;color:var(–muted);transition:.15s;max-width:36px;cursor:pointer;}
+font-size:11px;font-weight:700;color:var(–muted);transition:.15s;max-width:36px;
+cursor:pointer;position:relative;z-index:20;}
 .day-btn.done{border-color:var(–a);background:var(–a);color:#fff;}
 .day-btn.today{border-color:var(–a);color:var(–a);}
 .day-btn.future{opacity:.3;}
 
-/* Статистика */
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 12px;}
-.sc{background:var(–card);border-radius:14px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;transition:.2s;}
-.sc:active{transform:scale(.97);}
-.si{font-size:22px;margin-bottom:4px;}
-.sv{font-size:18px;font-weight:800;color:var(–a);}
+/* Статистика привычки */
+.hab-stats-row{display:flex;gap:6px;margin-top:8px;}
+.hab-stat{flex:1;background:var(–inp);border-radius:10px;padding:8px 6px;text-align:center;}
+.hab-stat-val{font-size:14px;font-weight:800;color:var(–a);}
+.hab-stat-lbl{font-size:10px;color:var(–muted);margin-top:1px;}
+
+/* Календарь месяца для привычки */
+.month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:12px 16px;}
+.mgd{aspect-ratio:1;border-radius:8px;border:none;background:var(–inp);
+font-size:11px;font-weight:600;color:var(–muted);display:flex;align-items:center;justify-content:center;}
+.mgd.done{background:var(–a);color:#fff;}
+.mgd.today{border:2px solid var(–a);}
+.mgd.empty{background:transparent;}
+
+/* Аналитика */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px;}
+.sc{background:var(–card);border-radius:16px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.si{font-size:26px;margin-bottom:6px;}.sv{font-size:22px;font-weight:800;color:var(–a);}
 .sl2{font-size:11px;color:var(–muted);margin-top:2px;}
-.sc-expand{font-size:10px;color:var(–a);margin-top:4px;}
 
-/* Развёрнутая инфа в сабшит */
-.detail-box{background:var(–inp);border-radius:12px;padding:12px;margin-bottom:10px;}
-.detail-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(–border);}
-.detail-row:last-child{border-bottom:none;}
-.detail-lbl{font-size:13px;color:var(–muted);}
-.detail-val{font-size:14px;font-weight:700;}
-
-/* Прогресс месяц */
+/* Бар прогресс привычки */
 .hab-progress-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(–border);}
 .hab-progress-row:last-child{border-bottom:none;}
 .hp-icon{font-size:20px;}
-.hp-info{flex:1;min-width:0;}
+.hp-info{flex:1;}
 .hp-name{font-size:13px;font-weight:600;}
 .hp-bar{height:4px;background:var(–border);border-radius:2px;margin-top:4px;overflow:hidden;}
 .hp-fill{height:100%;border-radius:2px;background:var(–a);transition:width .4s;}
 .hp-pct{font-size:13px;font-weight:700;color:var(–a);}
 
-/* Календарь компактный */
-.cal-container{padding:10px 14px 14px;}
-.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;}
-.cal-day-header{text-align:center;font-size:10px;font-weight:700;color:var(–muted);padding:2px 0;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-.cal-cell{aspect-ratio:1;border-radius:7px;border:1px solid var(–border);
-display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;
-color:var(–muted);background:transparent;}
-.cal-cell.done{background:var(–a);color:#fff;border-color:var(–a);}
-.cal-cell.today{border:2px solid var(–a);background:rgba(124,92,191,.1);}
-.cal-cell.empty{background:transparent;border:none;}
-
-/* Bottom Sheets */
+/* Bottom sheets */
 .bsheet{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none;align-items:flex-end;}
 .bsheet.on{display:flex;}
-.bsbox{width:100%;background:var(–card);border-radius:20px 20px 0 0;
-padding:0 16px calc(var(–sb)+12px);max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.bsbox{width:100%;background:var(–card);border-radius:22px 22px 0 0;padding:0 20px calc(var(–sb)+16px);max-height:92vh;overflow-y:auto;}
 .bsbox::-webkit-scrollbar{display:none;}
-.bsh{width:36px;height:4px;background:var(–border);border-radius:2px;margin:8px auto 12px;}
-.bst{font-size:16px;font-weight:700;margin-bottom:12px;}
-.bsbtn{width:100%;padding:12px;border-radius:11px;border:none;font-size:14px;font-weight:700;margin-bottom:7px;cursor:pointer;}
+.bsh{width:40px;height:4px;background:var(–border);border-radius:2px;margin:12px auto 16px;}
+.bst{font-size:18px;font-weight:700;margin-bottom:16px;}
+.bsbtn{width:100%;padding:14px;border-radius:13px;border:none;font-size:16px;font-weight:700;margin-bottom:8px;cursor:pointer;z-index:20;position:relative;}
 .bsbtn.ok{background:var(–a);color:#fff;}
 .bsbtn.cl{background:var(–inp);color:var(–muted);}
 .bsbtn.rm{background:#ff3b30;color:#fff;}
-.bs-inp{width:100%;background:var(–inp);border:none;border-radius:10px;padding:10px 12px;font-size:14px;color:var(–text);outline:none;margin-bottom:8px;}
-.bs-lbl{font-size:10px;font-weight:700;color:var(–muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
+.bs-inp{width:100%;background:var(–inp);border:none;border-radius:12px;padding:12px 14px;font-size:16px;color:var(–text);outline:none;margin-bottom:10px;cursor:text;z-index:20;position:relative;}
 
-.icon-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-bottom:12px;}
-.icon-pick{aspect-ratio:1;border:1.5px solid var(–border);border-radius:7px;background:transparent;
-display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;}
-.icon-pick.on{border-color:var(–a);background:var(–a2);}
-
-.color-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin-bottom:12px;}
-.color-dot{aspect-ratio:1;border-radius:50%;border:2.5px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:transparent;font-size:13px;font-weight:700;max-width:34px;}
+/* Выбор цвета */
+.color-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.color-dot{width:44px;height:44px;border-radius:50%;border:3px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:transparent;font-size:18px;font-weight:700;}
 .color-dot.on{border-color:var(–text);color:#fff;}
 
-.freq-row{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px;}
-.freq-btn{padding:9px 8px;border-radius:9px;border:none;background:var(–inp);font-size:12px;font-weight:600;color:var(–muted);cursor:pointer;}
+/* Частота */
+.freq-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.freq-btn{padding:8px 14px;border-radius:10px;border:none;background:var(–inp);font-size:13px;font-weight:600;color:var(–muted);cursor:pointer;z-index:20;position:relative;}
 .freq-btn.on{background:var(–a);color:#fff;}
-
-.cd-row{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;}
-.cd-btn{flex:1;min-width:38px;padding:8px;border-radius:9px;border:none;background:var(–inp);font-size:12px;font-weight:600;color:var(–muted);cursor:pointer;}
-.cd-btn.on{background:var(–a);color:#fff;}
-
-/* Календарь выбора недели */
-.cal-pick-nav{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.cal-pick-btn{width:36px;height:36px;border-radius:10px;border:none;background:var(–inp);font-size:18px;color:var(–text);}
-.cal-pick-month{flex:1;text-align:center;font-size:15px;font-weight:700;}
-.cal-pick-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:14px;}
-.cp-d{padding:8px 2px;border-radius:9px;border:none;background:transparent;font-size:13px;color:var(–text);text-align:center;cursor:pointer;}
-.cp-d.oth{color:var(–muted);opacity:.5;}
-.cp-d.tod{color:var(–a);font-weight:800;}
-.cp-d.inw{background:rgba(124,92,191,.15);color:var(–a);font-weight:600;}
 
 /* Тема */
 #thOv{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;}
 #thOv.on{display:block;}
 #thSh{position:fixed;bottom:0;left:0;right:0;z-index:201;background:var(–card);
 border-radius:22px 22px 0 0;padding:0 20px calc(var(–sb)+20px);
-transform:translateY(100%);transition:transform .3s;max-height:85vh;overflow-y:auto;}
+transform:translateY(100%);transition:transform .3s;}
 #thSh.on{transform:translateY(0);}
 .tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
 .tdot{aspect-ratio:1;border-radius:50%;border:3px solid transparent;display:flex;align-items:center;justify-content:center;font-size:18px;color:transparent;font-weight:700;cursor:pointer;}
@@ -193,11 +155,10 @@ transform:translateY(100%);transition:transform .3s;max-height:85vh;overflow-y:a
 .sw.on{background:#34c759;}.swk{position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:.2s;}
 .sw.on .swk{left:22px;}
 
-/* FAB - левый угол снизу, чтобы не закрывал текст справа */
-#fab{position:fixed;right:16px;bottom:calc(var(–sb)+72px);width:50px;height:50px;border-radius:50%;
-background:var(–a);border:none;color:#fff;font-size:26px;box-shadow:0 4px 16px rgba(0,0,0,.25);cursor:pointer;z-index:99;
-display:flex;align-items:center;justify-content:center;opacity:.92;}
-#fab:active{opacity:1;transform:scale(.95);}
+/* FAB */
+#fab{position:fixed;right:20px;z-index:99;width:56px;height:56px;border-radius:50%;
+background:var(–a);border:none;color:#fff;font-size:28px;box-shadow:0 4px 16px rgba(0,0,0,.2);
+pointer-events:auto;cursor:pointer;}
 
 .empty{text-align:center;padding:40px 20px;color:var(–muted);font-size:14px;line-height:1.7;}
 .empty-i{font-size:44px;margin-bottom:10px;}
@@ -205,76 +166,72 @@ display:flex;align-items:center;justify-content:center;opacity:.92;}
 
 </head>
 <body>
-<div id="app">
-  <div id="topbar">
-    <div id="sb"></div>
-    <div class="h1">
-      <div class="logo">✨ Привычки</div>
-      <button class="ico" onclick="openTh()">🎨</button>
-    </div>
-    <div class="top-extra">
-      <div class="hdr-stats">
-        <div class="hstat" onclick="openStatDetail('today')"><div class="hstat-val" id="stat-today">0%</div><div class="hstat-lbl">Сегодня</div></div>
-        <div class="hstat" onclick="openStatDetail('week')"><div class="hstat-val" id="stat-week">0%</div><div class="hstat-lbl">Неделя</div></div>
-        <div class="hstat" onclick="openStatDetail('streak')"><div class="hstat-val" id="stat-streak">🔥0</div><div class="hstat-lbl">Серия</div></div>
-        <div class="hstat" onclick="openStatDetail('focus')"><div class="hstat-val" id="stat-focus" style="font-size:14px;">⭐</div><div class="hstat-lbl">Фокус</div></div>
-      </div>
-      <div class="weekgraph" id="weekgraph"></div>
-    </div>
+<div id="sb"></div>
+<div id="hdr">
+  <div class="h1">
+    <div class="logo">✨ Привычки</div>
+    <button class="ico" onclick="openTh()">🎨</button>
   </div>
-
-  <div id="wnav">
-    <button class="warr" onclick="shW(-1)">‹</button>
-    <button class="wlbl" id="wlbl" onclick="openWeekPicker()"></button>
-    <button class="wnow" onclick="goNow()">📅</button>
-    <button class="warr" onclick="shW(1)">›</button>
-  </div>
-
-  <div id="content"></div>
-
-<button id="fab" onclick="openNewHabit()">+</button>
-
-  <div id="tabs">
-    <button class="tb on" onclick="setTab('today',this)"><span class="tbi">📋</span><span class="tbl">Сегодня</span></button>
-    <button class="tb" onclick="setTab('week',this)"><span class="tbi">📅</span><span class="tbl">Неделя</span></button>
-    <button class="tb" onclick="setTab('stats',this)"><span class="tbi">📊</span><span class="tbl">Статистика</span></button>
-    <button class="tb" onclick="setTab('manage',this)"><span class="tbi">⚙️</span><span class="tbl">Привычки</span></button>
+  <div class="hdr-stats">
+    <div class="hstat"><div class="hstat-val" id="stat-today">0%</div><div class="hstat-lbl">Сегодня</div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-week">0%</div><div class="hstat-lbl">Неделя</div></div>
+    <div class="hstat"><div class="hstat-val" id="stat-streak">🔥0</div><div class="hstat-lbl">Серия</div></div>
   </div>
 </div>
 
-<!-- РЕДАКТОР ПРИВЫЧКИ -->
+<div id="wnav">
+  <button class="warr" onclick="shW(-1)">‹</button>
+  <div class="wlbl" id="wlbl"></div>
+  <button class="wnow" onclick="goNow()">📅</button>
+  <button class="warr" onclick="shW(1)">›</button>
+</div>
+
+<div id="content"></div>
+
+<button id="fab" onclick="openNewHabit()">+</button>
+
+<div id="tabs">
+  <button class="tb on" onclick="setTab('today',this)"><span class="tbi">📋</span><span class="tbl">Сегодня</span></button>
+  <button class="tb" onclick="setTab('week',this)"><span class="tbi">📅</span><span class="tbl">Неделя</span></button>
+  <button class="tb" onclick="setTab('stats',this)"><span class="tbi">📊</span><span class="tbl">Статистика</span></button>
+  <button class="tb" onclick="setTab('manage',this)"><span class="tbi">⚙️</span><span class="tbl">Привычки</span></button>
+</div>
+
+<!-- Редактор привычки -->
 
 <div class="bsheet" id="habitSheet" onclick="closeBSheet('habitSheet',event)">
   <div class="bsbox">
     <div class="bsh"></div>
     <div class="bst" id="habit-sheet-title">Новая привычка</div>
-    <div class="bs-lbl">Название</div>
-    <input class="bs-inp" id="h-name" placeholder="Например: пить воду"/>
-    <div class="bs-lbl">Иконка</div>
-    <div class="icon-grid" id="icon-grid"></div>
-    <div class="bs-lbl">Цвет</div>
+    <input class="bs-inp" id="h-name" placeholder="Название привычки..."/>
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Иконка</div>
+    <input class="bs-inp" id="h-icon" placeholder="Эмодзи иконка 🏃"/>
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Цвет</div>
     <div class="color-grid" id="color-grid"></div>
-    <div class="bs-lbl">Частота</div>
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Частота</div>
     <div class="freq-row">
       <button class="freq-btn on" id="freq-daily" onclick="setFreq('daily')">Каждый день</button>
       <button class="freq-btn" id="freq-weekdays" onclick="setFreq('weekdays')">Пн–Пт</button>
       <button class="freq-btn" id="freq-weekend" onclick="setFreq('weekend')">Сб–Вс</button>
       <button class="freq-btn" id="freq-custom" onclick="setFreq('custom')">Свои дни</button>
     </div>
-    <div id="custom-days-row" style="display:none;">
-      <div class="cd-row" id="custom-days"></div>
+    <div id="custom-days-row" style="display:none;margin-bottom:14px;">
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${["Пн","Вт","Ср","Чт","Пт","Сб","Вс"].map((d,i)=>
+          `<button class="freq-btn" id="cd-${i}" onclick="toggleCustomDay(${i})">${d}</button>`).join("")}
+      </div>
     </div>
-    <div class="bs-lbl">Время напоминания (необязательно)</div>
-    <input class="bs-inp" id="h-remind" type="time"/>
-    <div class="bs-lbl">Заметка</div>
-    <input class="bs-inp" id="h-note" placeholder="Зачем эта привычка..."/>
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Цель (раз в день)</div>
+    <input class="bs-inp" id="h-goal" type="number" placeholder="1 (по умолчанию)" inputmode="numeric"/>
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Напоминание</div>
+    <input class="bs-inp" id="h-remind" type="time" placeholder="Время напоминания"/>
     <button class="bsbtn ok" onclick="saveHabit()">Сохранить</button>
-    <button class="bsbtn rm" id="h-del-btn" onclick="deleteHabit()" style="display:none">Удалить</button>
+    <button class="bsbtn rm" id="h-del-btn" onclick="deleteHabit()" style="display:none">Удалить привычку</button>
     <button class="bsbtn cl" onclick="closeBSheet('habitSheet')">Отмена</button>
   </div>
 </div>
 
-<!-- ДЕТАЛИ СТАТИСТИКИ -->
+<!-- Детали привычки -->
 
 <div class="bsheet" id="detailSheet" onclick="closeBSheet('detailSheet',event)">
   <div class="bsbox">
@@ -284,23 +241,7 @@ display:flex;align-items:center;justify-content:center;opacity:.92;}
   </div>
 </div>
 
-<!-- КАЛЕНДАРЬ ВЫБОРА НЕДЕЛИ -->
-
-<div class="bsheet" id="calPickSheet" onclick="closeBSheet('calPickSheet',event)">
-  <div class="bsbox">
-    <div class="bsh"></div>
-    <div class="bst">📅 Выбрать неделю</div>
-    <div class="cal-pick-nav">
-      <button class="cal-pick-btn" onclick="calPickMo(-1)">‹</button>
-      <div class="cal-pick-month" id="cal-pick-month"></div>
-      <button class="cal-pick-btn" onclick="calPickMo(1)">›</button>
-    </div>
-    <div class="cal-pick-grid" id="cal-pick-grid"></div>
-    <button class="bsbtn cl" onclick="closeBSheet('calPickSheet')">Закрыть</button>
-  </div>
-</div>
-
-<!-- ТЕМА -->
+<!-- Тема -->
 
 <div id="thOv" onclick="closeTh()"></div>
 <div id="thSh">
@@ -314,9 +255,9 @@ display:flex;align-items:center;justify-content:center;opacity:.92;}
 </div>
 
 <script>
+// ── КОНСТАНТЫ ──
 const SK="habits_v1";
-const HABIT_COLORS=["#7c5cbf","#4a9e7f","#3a7fd5","#e07b39","#c4566a","#3a9fa8","#c9a227","#e03a3a"];
-const HABIT_ICONS=["⭐","🏃","💧","📚","🧘","💪","🍎","😴","☀️","🎯","💊","🌱","✍️","🎨","🎵","🚴","🏋️","🧠","☕","🥗","🦷","🛌","💻","📱"];
+const COLORS=["#7c5cbf","#4a9e7f","#3a7fd5","#e07b39","#c4566a","#3a9fa8","#c9a227","#e03a3a","#2ecc71","#ff9500","#0a84ff","#ff3b30"];
 const DAYS_SHORT=["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
 const THEMES=[
   {n:"Фиолетовый",a:"#7c5cbf"},{n:"Зелёный",a:"#4a9e7f"},{n:"Синий",a:"#3a7fd5"},
@@ -324,25 +265,40 @@ const THEMES=[
   {n:"Жёлтый",a:"#c9a227"},{n:"Красный",a:"#e03a3a"},
 ];
 
-let D={habits:[],log:{}}, tab="today", cw=wkKey(new Date());
+let D={habits:[],log:{}}, tab="today";
+let cw=wkKey(new Date());
 let ti=+(localStorage.getItem("hab_ti")||0), dk=localStorage.getItem("hab_dk")==="1";
-let editHabitIdx=-1, editColor=0, editIcon=0, editFreq="daily", editCustomDays=[0,1,2,3,4];
-let calPickDate=new Date();
+let editHabitIdx=-1, editColor=0, editFreq="daily", editCustomDays=[0,1,2,3,4];
 
 function load(){try{D=JSON.parse(localStorage.getItem(SK)||'{"habits":[],"log":{}}');}catch(e){D={habits:[],log:{}};}}
 function save(){try{localStorage.setItem(SK,JSON.stringify(D));}catch(e){}}
 function getLog(){if(!D.log)D.log={};return D.log;}
 
-function localStr(date){const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,"0"),d=String(date.getDate()).padStart(2,"0");return y+"-"+m+"-"+d;}
-function monday(date){const d=new Date(date),n=d.getDay(),df=n===0?-6:1-n;d.setDate(d.getDate()+df);d.setHours(0,0,0,0);return d;}
+// ── ДАТЫ ──
+function localStr(date){
+  const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,"0"),d=String(date.getDate()).padStart(2,"0");
+  return y+"-"+m+"-"+d;
+}
+function monday(date){
+  const d=new Date(date),n=d.getDay(),df=n===0?-6:1-n;
+  d.setDate(d.getDate()+df);d.setHours(0,0,0,0);return d;
+}
 function wkKey(date){return localStr(monday(date));}
 function shiftKey(k,n){const p=k.split("-");const d=new Date(+p[0],+p[1]-1,+p[2]);d.setDate(d.getDate()+n*7);return wkKey(d);}
 function todayStr(){return localStr(new Date());}
 function isFuture(dateStr){return dateStr>todayStr();}
 function dayOfWeek(dateStr){const p=dateStr.split("-");const d=new Date(+p[0],+p[1]-1,+p[2]);return d.getDay()===0?6:d.getDay()-1;}
-function fwk(k){const p=k.split("-");const s=new Date(+p[0],+p[1]-1,+p[2]);const e=new Date(s);e.setDate(e.getDate()+6);return s.toLocaleDateString("ru-RU",{day:"2-digit",month:"short"})+" – "+e.toLocaleDateString("ru-RU",{day:"2-digit",month:"short"});}
-function getWeekDates(wk){const p=wk.split("-"),dates=[];for(let i=0;i<7;i++){const d=new Date(+p[0],+p[1]-1,+p[2]+i);dates.push(localStr(d));}return dates;}
+function fwk(k){
+  const p=k.split("-");const s=new Date(+p[0],+p[1]-1,+p[2]);const e=new Date(s);e.setDate(e.getDate()+6);
+  return s.toLocaleDateString("ru-RU",{day:"2-digit",month:"short"})+" – "+e.toLocaleDateString("ru-RU",{day:"2-digit",month:"short"});
+}
+function getWeekDates(wk){
+  const p=wk.split("-"),dates=[];
+  for(let i=0;i<7;i++){const d=new Date(+p[0],+p[1]-1,+p[2]+i);dates.push(localStr(d));}
+  return dates;
+}
 
+// ── ПРИВЫЧКА АКТИВНА В ДЕНЬ? ──
 function isActiveDay(habit,dateStr){
   const dow=dayOfWeek(dateStr);
   if(habit.freq==="daily")return true;
@@ -352,6 +308,7 @@ function isActiveDay(habit,dateStr){
   return true;
 }
 
+// ── ЛОГ ──
 function isChecked(habitId,dateStr){return!!(getLog()[dateStr]&&getLog()[dateStr][habitId]);}
 function toggle(habitId,dateStr){
   if(isFuture(dateStr))return;
@@ -360,6 +317,7 @@ function toggle(habitId,dateStr){
   save();render();
 }
 
+// ── СТАТИСТИКА ──
 function getStreak(habit){
   let streak=0,d=new Date();
   for(let i=0;i<365;i++){
@@ -379,7 +337,8 @@ function getMonthPct(habit,year,month){
     const ds=year+"-"+String(month+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
     if(isFuture(ds))continue;
     if(!isActiveDay(habit,ds))continue;
-    total++;if(isChecked(habit.id,ds))done++;
+    total++;
+    if(isChecked(habit.id,ds))done++;
   }
   return total?Math.round(done/total*100):0;
 }
@@ -416,22 +375,11 @@ function getBestStreak(){
   if(!D.habits.length)return 0;
   return Math.max(...D.habits.map(h=>getStreak(h)));
 }
-function getFocusHabit(){
-  // Привычка которой нужно больше внимания — с самым низким % за месяц
-  if(!D.habits.length)return null;
-  const now=new Date();
-  let worst=D.habits[0],worstPct=getMonthPct(D.habits[0],now.getFullYear(),now.getMonth());
-  D.habits.forEach(h=>{
-    const p=getMonthPct(h,now.getFullYear(),now.getMonth());
-    if(p<worstPct){worst=h;worstPct=p;}
-  });
-  return worst;
-}
 
+// ── ТЕМА ──
 function applyTheme(){
   const t=THEMES[ti];
   document.documentElement.style.setProperty("--a",t.a);
-  document.documentElement.style.setProperty("--a2",t.a+"22");
   document.body.classList.toggle("dk",dk);
   const sw=document.getElementById("dsw");if(sw)sw.classList.toggle("on",dk);
   document.querySelector("meta[name=theme-color]").content=t.a;
@@ -445,46 +393,34 @@ function togDk(){dk=!dk;localStorage.setItem("hab_dk",dk?"1":"0");applyTheme();r
 function openTh(){document.getElementById("thSh").classList.add("on");document.getElementById("thOv").classList.add("on");}
 function closeTh(){document.getElementById("thSh").classList.remove("on");document.getElementById("thOv").classList.remove("on");}
 
-function shW(n){cw=shiftKey(cw,n);render(true);}
-function goNow(){cw=wkKey(new Date());render(true);}
+// ── НАВИГАЦИЯ ──
+function shW(n){cw=shiftKey(cw,n);render();}
+function goNow(){cw=wkKey(new Date());render();}
 function setTab(name,btn){
   tab=name;
   document.querySelectorAll(".tb").forEach(b=>b.classList.remove("on"));
   btn.classList.add("on");
-  render(true);
+  render();
 }
 
-// График недели
-function buildWeekGraph(){
-  const dates=getWeekDates(wkKey(new Date()));
-  const today=todayStr();
-  const html=dates.map((ds,i)=>{
-    const active=D.habits.filter(h=>isActiveDay(h,ds)&&!isFuture(ds));
-    const done=active.filter(h=>isChecked(h.id,ds)).length;
-    const pct=active.length?Math.round(done/active.length*100):0;
-    const isToday=ds===today;
-    return`<div class="wgcol" style="${isToday?"background:rgba(124,92,191,.25)":""}">
-      <div class="wgfill" style="height:${pct}%"></div>
-      <div class="wglbl">${DAYS_SHORT[i].charAt(0)}</div>
-    </div>`;
-  }).join("");
-  document.getElementById("weekgraph").innerHTML=html;
-}
-
+// ── ШАПКА ──
 function renderHeader(){
   document.getElementById("wlbl").textContent=fwk(cw)+(cw===wkKey(new Date())?" · Эта неделя":"");
   document.getElementById("stat-today").textContent=getTodayPct()+"%";
   document.getElementById("stat-week").textContent=getWeekOverallPct()+"%";
   document.getElementById("stat-streak").textContent="🔥"+getBestStreak();
-  const focus=getFocusHabit();
-  document.getElementById("stat-focus").textContent=focus?focus.icon:"⭐";
-  buildWeekGraph();
+  const hh=document.getElementById("sb").offsetHeight+document.getElementById("hdr").offsetHeight+document.getElementById("wnav").offsetHeight;
+  document.getElementById("wnav").style.top=(document.getElementById("sb").offsetHeight+document.getElementById("hdr").offsetHeight)+"px";
+  document.getElementById("content").style.paddingTop=hh+"px";
+  const tabH=document.getElementById("tabs").offsetHeight;
+  document.getElementById("fab").style.bottom=(tabH+16)+"px";
 }
 
+// ── СЕГОДНЯ ──
 function renderToday(){
   const today=todayStr();
   const active=D.habits.filter(h=>isActiveDay(h,today));
-  if(!active.length)return`<div class="empty"><div class="empty-i">✨</div>Нет привычек на сегодня.<br>Нажмите + чтобы добавить!</div>`;
+  if(!active.length)return`<div style="height:12px"></div><div class="empty"><div class="empty-i">✨</div>Нет привычек.<br>Нажмите + чтобы добавить первую!</div>`;
 
   const done=active.filter(h=>isChecked(h.id,today)).length;
   const pct=Math.round(done/active.length*100);
@@ -495,10 +431,10 @@ function renderToday(){
     return`<div class="hab-row" onclick="toggle('${h.id}','${today}')">
       <div style="display:flex;align-items:center;gap:12px;">
         <div class="hab-icon" style="background:${h.color}22">${h.icon||"⭐"}</div>
-        <div style="flex:1;min-width:0;">
+        <div style="flex:1">
           <div class="hab-name" style="${checked?"text-decoration:line-through;opacity:.5":""}">${esc(h.name)}</div>
           <div class="hab-meta">
-            ${streak>0?`<span class="hab-streak">🔥 ${streak}</span>`:""}
+            ${streak>0?`<span class="hab-streak">🔥 ${streak} дней</span>`:""}
             ${h.remind?`<span style="font-size:11px;color:var(--muted)">🕐 ${h.remind}</span>`:""}
           </div>
         </div>
@@ -511,7 +447,7 @@ function renderToday(){
     </div>`;
   }).join("");
 
-  return`
+  return`<div style="height:12px"></div>
     <div class="card">
       <div class="ch">
         <span class="ct">Сегодня</span>
@@ -526,10 +462,11 @@ function renderToday(){
     </div>`;
 }
 
+// ── НЕДЕЛЯ ──
 function renderWeek(){
   const dates=getWeekDates(cw);
   const today=todayStr();
-  if(!D.habits.length)return`<div class="empty"><div class="empty-i">📅</div>Нет привычек.</div>`;
+  if(!D.habits.length)return`<div style="height:12px"></div><div class="empty"><div class="empty-i">📅</div>Нет привычек.</div>`;
 
   const rows=D.habits.map(h=>{
     const weekPct=getWeekPct(h,cw);
@@ -542,7 +479,7 @@ function renderWeek(){
       return`<div class="day-check">
         <div class="day-lbl">${DAYS_SHORT[i]}</div>
         <button class="day-btn ${checked?"done":""} ${isToday&&!checked?"today":""} ${future?"future":""}"
-          onclick="event.stopPropagation();${!future&&active?"toggle('"+h.id+"','"+ds+"')":"''"}">
+          onclick="${!future&&active?"toggle('"+h.id+"','"+ds+"')":"''"};event.stopPropagation()">
           ${checked?"✓":active?(future?"·":"·"):"—"}
         </button>
       </div>`;
@@ -554,7 +491,7 @@ function renderWeek(){
           <div class="hab-name">${esc(h.name)}</div>
           <div class="hab-meta">
             ${streak>0?`<span class="hab-streak">🔥${streak}</span>`:""}
-            <span class="hab-pct">${weekPct}%</span>
+            <span class="hab-pct">${weekPct}% за неделю</span>
           </div>
         </div>
       </div>
@@ -562,15 +499,34 @@ function renderWeek(){
     </div>`;
   }).join("");
 
-  return`
+  // Итоговая строка по дням
+  const dayTotals=dates.map(ds=>{
+    const active=D.habits.filter(h=>isActiveDay(h,ds)&&!isFuture(ds));
+    if(!active.length)return`<div class="day-check"><div class="day-lbl" style="opacity:0">·</div><div style="height:32px"></div></div>`;
+    const done=active.filter(h=>isChecked(h.id,ds)).length;
+    const pct=Math.round(done/active.length*100);
+    const isToday=ds===todayStr();
+    return`<div class="day-check">
+      <div class="day-lbl"></div>
+      <div style="width:100%;max-width:36px;padding:4px 2px;border-radius:8px;background:${pct===100?"var(--a)":"var(--inp)"};
+        text-align:center;font-size:9px;font-weight:700;color:${pct===100?"#fff":"var(--muted)"};
+        border:${isToday?"2px solid var(--a)":"2px solid transparent"}">${pct}%</div>
+    </div>`;
+  }).join("");
+
+  return`<div style="height:12px"></div>
     <div class="card">
       <div class="ch"><span class="ct">Неделя</span><span class="cb">${fwk(cw)}</span></div>
       ${rows}
+      <div style="padding:8px 16px 12px;border-top:1px solid var(--border)">
+        <div style="display:flex;gap:4px" class="week-days">${dayTotals}</div>
+      </div>
     </div>`;
 }
 
+// ── СТАТИСТИКА ──
 function renderStats(){
-  if(!D.habits.length)return`<div class="empty"><div class="empty-i">📊</div>Нет привычек.</div>`;
+  if(!D.habits.length)return`<div style="height:12px"></div><div class="empty"><div class="empty-i">📊</div>Нет привычек.</div>`;
 
   const now=new Date();
   const y=now.getFullYear(),m=now.getMonth();
@@ -578,7 +534,7 @@ function renderStats(){
   const rows=D.habits.map(h=>{
     const monthPct=getMonthPct(h,y,m);
     const streak=getStreak(h);
-    return`<div class="hab-progress-row" onclick="openHabitDetail('${h.id}')">
+    return`<div class="hab-progress-row">
       <div class="hp-icon">${h.icon||"⭐"}</div>
       <div class="hp-info">
         <div class="hp-name">${esc(h.name)} ${streak>0?`🔥${streak}`:""}</div>
@@ -588,245 +544,60 @@ function renderStats(){
     </div>`;
   }).join("");
 
+  // Календарь текущего месяца для лучшей привычки
   const best=D.habits.reduce((b,h)=>getMonthPct(h,y,m)>getMonthPct(b,y,m)?h:b,D.habits[0]);
-
-  // Календарь best привычки
   const daysInM=new Date(y,m+1,0).getDate();
   const firstDow=new Date(y,m,1).getDay()===0?6:new Date(y,m,1).getDay()-1;
   let calHtml="";
-  for(let i=0;i<firstDow;i++)calHtml+=`<div class="cal-cell empty"></div>`;
+  for(let i=0;i<firstDow;i++)calHtml+=`<div class="mgd empty"></div>`;
   for(let d=1;d<=daysInM;d++){
     const ds=y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
     const isToday=ds===todayStr();
     const active=isActiveDay(best,ds)&&!isFuture(ds);
     const checked=isChecked(best.id,ds);
-    calHtml+=`<div class="cal-cell ${checked&&active?"done":""} ${isToday?"today":""}" style="${checked&&active?"background:"+best.color:""}">${d}</div>`;
+    calHtml+=`<div class="mgd ${checked&&active?"done":""} ${isToday?"today":""}" style="${checked&&active?"background:"+best.color:""}">${d}</div>`;
   }
 
-  return`
+  return`<div style="height:12px"></div>
     <div class="stats-grid">
-      <div class="sc" onclick="openStatDetail('today')"><div class="si">📅</div><div class="sv">${getTodayPct()}%</div><div class="sl2">Сегодня</div><div class="sc-expand">Подробнее ›</div></div>
-      <div class="sc" onclick="openStatDetail('streak')"><div class="si">🔥</div><div class="sv">${getBestStreak()}</div><div class="sl2">Лучшая серия</div><div class="sc-expand">Подробнее ›</div></div>
-      <div class="sc" onclick="openStatDetail('week')"><div class="si">✅</div><div class="sv">${getWeekOverallPct()}%</div><div class="sl2">Неделя</div><div class="sc-expand">Подробнее ›</div></div>
-      <div class="sc" onclick="openStatDetail('all')"><div class="si">📊</div><div class="sv">${D.habits.length}</div><div class="sl2">Привычек</div><div class="sc-expand">Все ›</div></div>
+      <div class="sc"><div class="si">📅</div><div class="sv">${getTodayPct()}%</div><div class="sl2">Сегодня</div></div>
+      <div class="sc"><div class="si">🔥</div><div class="sv">${getBestStreak()}</div><div class="sl2">Лучшая серия</div></div>
+      <div class="sc"><div class="si">✅</div><div class="sv">${getWeekOverallPct()}%</div><div class="sl2">Эта неделя</div></div>
+      <div class="sc"><div class="si">📊</div><div class="sv">${D.habits.length}</div><div class="sl2">Привычек</div></div>
     </div>
-    <div class="card"><div class="ch"><span class="ct">За месяц</span><span class="cb">Нажми для деталей</span></div><div style="padding:0 16px">${rows}</div></div>
+    <div class="card"><div class="ch"><span class="ct">За этот месяц</span></div><div style="padding:0 16px">${rows}</div></div>
     ${best?`<div class="card">
-      <div class="ch"><span class="ct">${best.icon} ${esc(best.name)}</span><span class="cb">Лучшая</span></div>
-      <div class="cal-container">
-        <div class="cal-head">
-          ${DAYS_SHORT.map(d=>`<div class="cal-day-header">${d}</div>`).join("")}
-        </div>
-        <div class="cal-grid">${calHtml}</div>
+      <div class="ch"><span class="ct">${best.icon} ${esc(best.name)}</span><span class="cb">Лучшая привычка</span></div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;padding:8px 16px 14px">
+        ${DAYS_SHORT.map(d=>`<div style="font-size:9px;font-weight:700;color:var(--muted);text-align:center;padding:2px 0">${d}</div>`).join("")}
+        ${calHtml}
       </div>
     </div>`:""}`;
 }
 
+// ── УПРАВЛЕНИЕ ──
 function renderManage(){
-  if(!D.habits.length)return`<div class="empty"><div class="empty-i">⚙️</div>Нет привычек.<br>Нажмите + чтобы добавить!</div>`;
-  const rows=D.habits.map((h,i)=>{
-    const streak=getStreak(h);
-    const now=new Date();
-    const monthPct=getMonthPct(h,now.getFullYear(),now.getMonth());
-    return`<div class="hab-row" onclick="openEditHabit(${i})">
-      <div class="hab-top">
-        <div class="hab-icon" style="background:${h.color}22">${h.icon||"⭐"}</div>
-        <div class="hab-info">
-          <div class="hab-name">${esc(h.name)}</div>
-          <div class="hab-meta">
-            <span class="hab-pct">${h.freq==="daily"?"Каждый день":h.freq==="weekdays"?"Пн–Пт":h.freq==="weekend"?"Сб–Вс":"Свои дни"}</span>
-            ${h.remind?`<span style="font-size:11px;color:var(--muted)">🕐 ${h.remind}</span>`:""}
-            ${streak>0?`<span class="hab-streak">🔥${streak}</span>`:""}
-          </div>
-          ${h.note?`<div style="font-size:11px;color:var(--muted);margin-top:4px;font-style:italic">"${esc(h.note)}"</div>`:""}
-        </div>
-        <div style="text-align:right;flex-shrink:0;">
-          <div style="font-size:13px;font-weight:700;color:${h.color}">${monthPct}%</div>
-          <div style="font-size:10px;color:var(--muted)">за месяц</div>
+  if(!D.habits.length)return`<div style="height:12px"></div><div class="empty"><div class="empty-i">⚙️</div>Нет привычек.<br>Нажмите + чтобы добавить!</div>`;
+  const rows=D.habits.map((h,i)=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);">
+      <div style="width:40px;height:40px;border-radius:12px;background:${h.color}22;
+        display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${h.icon||"⭐"}</div>
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:700">${esc(h.name)}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">
+          ${h.freq==="daily"?"Каждый день":h.freq==="weekdays"?"Пн–Пт":h.freq==="weekend"?"Сб–Вс":"Свои дни"}
+          ${h.remind?" · 🕐"+h.remind:""}
         </div>
       </div>
-    </div>`;
-  }).join("");
-  
-  // Глобальные настройки
-  const total=D.habits.length;
-  const totalLogs=Object.keys(getLog()).length;
-  
-  return`
-    <div class="card">
-      <div class="ch"><span class="ct">Все привычки</span><span class="cb">${total}</span></div>
-      ${rows}
-    </div>
-    <div class="card">
-      <div class="ch"><span class="ct">⚙️ Настройки</span></div>
-      <div style="padding:14px 16px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border);" onclick="openTh()">
-        <div><div style="font-size:14px;font-weight:600">Тема и цвет</div><div style="font-size:12px;color:var(--muted)">${THEMES[ti].n}${dk?" · Тёмная":" · Светлая"}</div></div>
-        <div style="font-size:18px;color:var(--muted)">›</div>
-      </div>
-      <div style="padding:14px 16px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border);" onclick="exportData()">
-        <div><div style="font-size:14px;font-weight:600">📥 Экспорт данных</div><div style="font-size:12px;color:var(--muted)">Скачать резервную копию</div></div>
-        <div style="font-size:18px;color:var(--muted)">›</div>
-      </div>
-      <div style="padding:14px 16px;display:flex;justify-content:space-between;border-bottom:1px solid var(--border);" onclick="document.getElementById('import-input').click()">
-        <div><div style="font-size:14px;font-weight:600">📤 Импорт данных</div><div style="font-size:12px;color:var(--muted)">Восстановить из файла</div></div>
-        <div style="font-size:18px;color:var(--muted)">›</div>
-      </div>
-      <input type="file" id="import-input" style="display:none" accept=".json" onchange="importData(event)"/>
-      <div style="padding:14px 16px;display:flex;justify-content:space-between;" onclick="confirmReset()">
-        <div><div style="font-size:14px;font-weight:600;color:#ff3b30">🗑 Сбросить все данные</div><div style="font-size:12px;color:var(--muted)">${total} привычек · ${totalLogs} записей</div></div>
-        <div style="font-size:18px;color:var(--muted)">›</div>
-      </div>
-    </div>`;
+      <button onclick="openEditHabit(${i})" style="border:none;background:var(--inp);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;color:var(--muted);">Изменить</button>
+    </div>`).join("");
+  return`<div style="height:12px"></div>
+    <div class="card"><div class="ch"><span class="ct">Мои привычки</span><span class="cb">${D.habits.length}</span></div>${rows}</div>`;
 }
 
-// Деталь по статистике
-function openStatDetail(type){
-  let html="";
-  if(type==="today"){
-    const today=todayStr();
-    const active=D.habits.filter(h=>isActiveDay(h,today));
-    const done=active.filter(h=>isChecked(h.id,today));
-    const undone=active.filter(h=>!isChecked(h.id,today));
-    html=`<div class="bst">📅 Сегодня · ${getTodayPct()}%</div>
-      <div class="detail-box">
-        <div class="detail-row"><span class="detail-lbl">Всего привычек на сегодня</span><span class="detail-val">${active.length}</span></div>
-        <div class="detail-row"><span class="detail-lbl">Выполнено</span><span class="detail-val" style="color:var(--a)">${done.length}</span></div>
-        <div class="detail-row"><span class="detail-lbl">Осталось</span><span class="detail-val" style="color:#ff9500">${undone.length}</span></div>
-      </div>
-      ${undone.length?`<div class="bs-lbl">Осталось выполнить</div>${undone.map(h=>`<div style="padding:10px;background:var(--inp);border-radius:10px;margin-bottom:6px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px">${h.icon}</span><span style="font-size:14px;font-weight:600">${esc(h.name)}</span></div>`).join("")}`:""}
-      ${done.length?`<div class="bs-lbl" style="margin-top:12px;">Выполнено</div>${done.map(h=>`<div style="padding:10px;background:var(--a2);border-radius:10px;margin-bottom:6px;display:flex;align-items:center;gap:10px;"><span style="font-size:18px">${h.icon}</span><span style="font-size:14px;font-weight:600">${esc(h.name)}</span><span style="margin-left:auto;color:var(--a)">✓</span></div>`).join("")}`:""}`;
-  } else if(type==="week"){
-    const pct=getWeekOverallPct();
-    const dates=getWeekDates(cw);
-    let total=0,done=0;
-    D.habits.forEach(h=>dates.forEach(ds=>{
-      if(isFuture(ds))return;if(!isActiveDay(h,ds))return;
-      total++;if(isChecked(h.id,ds))done++;
-    }));
-    html=`<div class="bst">✅ Неделя · ${pct}%</div>
-      <div class="detail-box">
-        <div class="detail-row"><span class="detail-lbl">Период</span><span class="detail-val">${fwk(cw)}</span></div>
-        <div class="detail-row"><span class="detail-lbl">Всего отметок</span><span class="detail-val">${total}</span></div>
-        <div class="detail-row"><span class="detail-lbl">Выполнено</span><span class="detail-val" style="color:var(--a)">${done}</span></div>
-      </div>
-      <div class="bs-lbl">По привычкам</div>
-      ${D.habits.map(h=>{
-        const wp=getWeekPct(h,cw);
-        return`<div style="padding:10px;background:var(--inp);border-radius:10px;margin-bottom:6px;display:flex;align-items:center;gap:10px;">
-          <span style="font-size:18px">${h.icon}</span>
-          <span style="flex:1;font-size:13px;font-weight:600">${esc(h.name)}</span>
-          <span style="color:${h.color};font-weight:700">${wp}%</span>
-        </div>`;
-      }).join("")}`;
-  } else if(type==="streak"){
-    const sorted=[...D.habits].sort((a,b)=>getStreak(b)-getStreak(a));
-    html=`<div class="bst">🔥 Серии дней</div>
-      <div class="detail-box">
-        <div class="detail-row"><span class="detail-lbl">Лучшая серия</span><span class="detail-val">🔥 ${getBestStreak()} дней</span></div>
-      </div>
-      <div class="bs-lbl">По привычкам</div>
-      ${sorted.map(h=>{
-        const s=getStreak(h);
-        return`<div style="padding:10px;background:var(--inp);border-radius:10px;margin-bottom:6px;display:flex;align-items:center;gap:10px;">
-          <span style="font-size:18px">${h.icon}</span>
-          <span style="flex:1;font-size:13px;font-weight:600">${esc(h.name)}</span>
-          <span style="color:#ff9500;font-weight:700">🔥 ${s}</span>
-        </div>`;
-      }).join("")}`;
-  } else if(type==="focus"){
-    const focus=getFocusHabit();
-    if(!focus){html=`<div class="bst">⭐ Фокус</div><p style="color:var(--muted)">Добавьте привычки</p>`;}
-    else{
-      const now=new Date();
-      const mp=getMonthPct(focus,now.getFullYear(),now.getMonth());
-      html=`<div class="bst">⭐ Привычка для фокуса</div>
-        <div style="padding:14px;background:${focus.color}22;border-radius:14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
-          <span style="font-size:32px">${focus.icon}</span>
-          <div>
-            <div style="font-size:16px;font-weight:700">${esc(focus.name)}</div>
-            <div style="font-size:12px;color:var(--muted);margin-top:2px">Эту привычку нужно прокачать</div>
-          </div>
-        </div>
-        <div class="detail-box">
-          <div class="detail-row"><span class="detail-lbl">Выполнение за месяц</span><span class="detail-val" style="color:${focus.color}">${mp}%</span></div>
-          <div class="detail-row"><span class="detail-lbl">Серия</span><span class="detail-val">🔥 ${getStreak(focus)}</span></div>
-        </div>
-        <p style="font-size:13px;color:var(--muted);line-height:1.5;padding:0 4px;">Сосредоточься на этой привычке — она нуждается в большем внимании. Старайся делать её каждый день когда она активна.</p>`;
-    }
-  } else if(type==="all"){
-    html=`<div class="bst">📊 Все привычки · ${D.habits.length}</div>
-      ${D.habits.map(h=>{
-        const now=new Date();
-        const mp=getMonthPct(h,now.getFullYear(),now.getMonth());
-        const s=getStreak(h);
-        return`<div style="padding:12px;background:var(--inp);border-radius:12px;margin-bottom:8px;">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-            <span style="font-size:22px">${h.icon}</span>
-            <span style="flex:1;font-size:14px;font-weight:700">${esc(h.name)}</span>
-            <span style="color:${h.color};font-weight:700">${mp}%</span>
-          </div>
-          <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:6px;">
-            <div style="height:100%;background:${h.color};width:${mp}%"></div>
-          </div>
-          <div style="display:flex;gap:8px;font-size:11px;color:var(--muted)">
-            <span>🔥${s} серия</span>
-            <span>${h.freq==="daily"?"Каждый день":h.freq==="weekdays"?"Пн–Пт":h.freq==="weekend"?"Сб–Вс":"Свои дни"}</span>
-          </div>
-        </div>`;
-      }).join("")}`;
-  }
-  document.getElementById("detail-content").innerHTML=html;
-  openBSheet("detailSheet");
-}
+// ── РЕДАКТОР ПРИВЫЧЕК ──
+const HABIT_COLORS=["#7c5cbf","#4a9e7f","#3a7fd5","#e07b39","#c4566a","#3a9fa8","#c9a227","#e03a3a","#2ecc71","#ff9500","#0a84ff","#ff3b30"];
 
-function openHabitDetail(habitId){
-  const h=D.habits.find(x=>x.id===habitId);
-  if(!h)return;
-  const now=new Date();
-  const mp=getMonthPct(h,now.getFullYear(),now.getMonth());
-  const wp=getWeekPct(h,wkKey(new Date()));
-  const s=getStreak(h);
-  
-  const daysInM=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-  const firstDow=new Date(now.getFullYear(),now.getMonth(),1).getDay()===0?6:new Date(now.getFullYear(),now.getMonth(),1).getDay()-1;
-  let calHtml="";
-  for(let i=0;i<firstDow;i++)calHtml+=`<div class="cal-cell empty"></div>`;
-  for(let d=1;d<=daysInM;d++){
-    const ds=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");
-    const isToday=ds===todayStr();
-    const active=isActiveDay(h,ds)&&!isFuture(ds);
-    const checked=isChecked(h.id,ds);
-    calHtml+=`<div class="cal-cell ${checked&&active?"done":""} ${isToday?"today":""}" style="${checked&&active?"background:"+h.color:""}">${d}</div>`;
-  }
-  
-  const html=`<div style="padding:14px;background:${h.color}22;border-radius:14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
-    <span style="font-size:32px">${h.icon}</span>
-    <div>
-      <div style="font-size:18px;font-weight:700">${esc(h.name)}</div>
-      ${h.note?`<div style="font-size:12px;color:var(--muted);margin-top:2px">"${esc(h.note)}"</div>`:""}
-    </div>
-  </div>
-  <div class="detail-box">
-    <div class="detail-row"><span class="detail-lbl">За месяц</span><span class="detail-val" style="color:${h.color}">${mp}%</span></div>
-    <div class="detail-row"><span class="detail-lbl">За неделю</span><span class="detail-val">${wp}%</span></div>
-    <div class="detail-row"><span class="detail-lbl">Серия</span><span class="detail-val">🔥 ${s}</span></div>
-    <div class="detail-row"><span class="detail-lbl">Частота</span><span class="detail-val">${h.freq==="daily"?"Каждый день":h.freq==="weekdays"?"Пн–Пт":h.freq==="weekend"?"Сб–Вс":"Свои дни"}</span></div>
-  </div>
-  <div class="bs-lbl">Календарь месяца</div>
-  <div class="cal-head">${DAYS_SHORT.map(d=>`<div class="cal-day-header">${d}</div>`).join("")}</div>
-  <div class="cal-grid">${calHtml}</div>`;
-  
-  document.getElementById("detail-content").innerHTML=html;
-  openBSheet("detailSheet");
-}
-
-// === РЕДАКТОР ПРИВЫЧКИ ===
-function buildIconGrid(){
-  document.getElementById("icon-grid").innerHTML=HABIT_ICONS.map((c,i)=>
-    `<div class="icon-pick ${i===editIcon?"on":""}" onclick="pickIcon(${i})">${c}</div>`
-  ).join("");
-}
-function pickIcon(i){editIcon=i;buildIconGrid();}
 function buildColorGrid(){
   document.getElementById("color-grid").innerHTML=HABIT_COLORS.map((c,i)=>
     `<div class="color-dot ${i===editColor?"on":""}" style="background:${c}" onclick="pickColor(${i})">✓</div>`
@@ -839,42 +610,43 @@ function setFreq(f){
     document.getElementById("freq-"+x)?.classList.toggle("on",x===f);
   });
   document.getElementById("custom-days-row").style.display=f==="custom"?"block":"none";
-  if(f==="custom")renderCustomDays();
-}
-function renderCustomDays(){
-  document.getElementById("custom-days").innerHTML=[0,1,2,3,4,5,6].map(i=>
-    `<button class="cd-btn ${editCustomDays.includes(i)?"on":""}" onclick="toggleCustomDay(${i})">${DAYS_SHORT[i]}</button>`
-  ).join("");
 }
 function toggleCustomDay(i){
   if(editCustomDays.includes(i))editCustomDays=editCustomDays.filter(x=>x!==i);
   else editCustomDays.push(i);
-  renderCustomDays();
+  editCustomDays.forEach((_,j)=>{});
+  [0,1,2,3,4,5,6].forEach(d=>{
+    document.getElementById("cd-"+d)?.classList.toggle("on",editCustomDays.includes(d));
+  });
 }
 
 function openNewHabit(){
-  editHabitIdx=-1;editColor=Math.floor(Math.random()*HABIT_COLORS.length);editIcon=0;editFreq="daily";editCustomDays=[0,1,2,3,4];
+  editHabitIdx=-1;editColor=0;editFreq="daily";editCustomDays=[0,1,2,3,4];
   document.getElementById("habit-sheet-title").textContent="Новая привычка";
   document.getElementById("h-name").value="";
+  document.getElementById("h-icon").value="";
+  document.getElementById("h-goal").value="";
   document.getElementById("h-remind").value="";
-  document.getElementById("h-note").value="";
   document.getElementById("h-del-btn").style.display="none";
-  buildIconGrid();buildColorGrid();setFreq("daily");
+  buildColorGrid();setFreq("daily");
   openBSheet("habitSheet");
 }
 function openEditHabit(i){
   editHabitIdx=i;
   const h=D.habits[i];
   editColor=HABIT_COLORS.indexOf(h.color);if(editColor<0)editColor=0;
-  editIcon=HABIT_ICONS.indexOf(h.icon);if(editIcon<0)editIcon=0;
   editFreq=h.freq||"daily";
   editCustomDays=h.customDays||[0,1,2,3,4];
   document.getElementById("habit-sheet-title").textContent="Изменить привычку";
   document.getElementById("h-name").value=h.name||"";
+  document.getElementById("h-icon").value=h.icon||"";
+  document.getElementById("h-goal").value=h.goal||"";
   document.getElementById("h-remind").value=h.remind||"";
-  document.getElementById("h-note").value=h.note||"";
   document.getElementById("h-del-btn").style.display="block";
-  buildIconGrid();buildColorGrid();setFreq(editFreq);
+  buildColorGrid();setFreq(editFreq);
+  [0,1,2,3,4,5,6].forEach(d=>{
+    document.getElementById("cd-"+d)?.classList.toggle("on",editCustomDays.includes(d));
+  });
   openBSheet("habitSheet");
 }
 function saveHabit(){
@@ -883,92 +655,23 @@ function saveHabit(){
   const habit={
     id:editHabitIdx>=0?D.habits[editHabitIdx].id:"h"+Date.now(),
     name,
-    icon:HABIT_ICONS[editIcon]||"⭐",
+    icon:document.getElementById("h-icon").value.trim()||"⭐",
     color:HABIT_COLORS[editColor]||HABIT_COLORS[0],
     freq:editFreq,
     customDays:[...editCustomDays],
+    goal:+(document.getElementById("h-goal").value)||1,
     remind:document.getElementById("h-remind").value||"",
-    note:document.getElementById("h-note").value.trim()||"",
   };
   if(editHabitIdx>=0)D.habits[editHabitIdx]=habit;
   else D.habits.push(habit);
   save();closeBSheet("habitSheet");render();
 }
 function deleteHabit(){
-  if(!confirm("Удалить привычку?"))return;
   D.habits.splice(editHabitIdx,1);
   save();closeBSheet("habitSheet");render();
 }
 
-// === КАЛЕНДАРЬ ВЫБОРА НЕДЕЛИ ===
-function openWeekPicker(){
-  const p=cw.split("-");
-  calPickDate=new Date(+p[0],+p[1]-1,+p[2]);
-  renderCalPick();
-  openBSheet("calPickSheet");
-}
-function calPickMo(n){
-  calPickDate.setMonth(calPickDate.getMonth()+n);
-  renderCalPick();
-}
-function renderCalPick(){
-  const y=calPickDate.getFullYear(),m=calPickDate.getMonth();
-  document.getElementById("cal-pick-month").textContent=
-    calPickDate.toLocaleDateString("ru-RU",{month:"long",year:"numeric"});
-  const first=new Date(y,m,1),startDay=(first.getDay()===0?6:first.getDay()-1);
-  const daysInM=new Date(y,m+1,0).getDate();
-  const today=new Date();today.setHours(0,0,0,0);
-  let html=`<div class="cal-day-header">Пн</div><div class="cal-day-header">Вт</div><div class="cal-day-header">Ср</div><div class="cal-day-header">Чт</div><div class="cal-day-header">Пт</div><div class="cal-day-header">Сб</div><div class="cal-day-header">Вс</div>`;
-  const prev=new Date(y,m,0).getDate();
-  for(let i=startDay-1;i>=0;i--)html+=`<button class="cp-d oth" onclick="pickDay(${y},${m===0?11:m-1},${prev-i})">${prev-i}</button>`;
-  for(let d=1;d<=daysInM;d++){
-    const date=new Date(y,m,d);const isToday=date.getTime()===today.getTime();
-    const inw=wkKey(date)===cw;
-    let cls="cp-d";
-    if(inw)cls+=" inw";
-    if(isToday&&!inw)cls+=" tod";
-    html+=`<button class="${cls}" onclick="pickDay(${y},${m},${d})">${d}</button>`;
-  }
-  document.getElementById("cal-pick-grid").innerHTML=html;
-}
-function pickDay(y,m,d){
-  cw=wkKey(new Date(y,m,d));
-  closeBSheet("calPickSheet");render(true);
-}
-
-// === ЭКСПОРТ/ИМПОРТ ===
-function exportData(){
-  const dataStr=JSON.stringify(D,null,2);
-  const blob=new Blob([dataStr],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;
-  a.download="habits-backup-"+todayStr()+".json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-function importData(event){
-  const file=event.target.files[0];
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const imported=JSON.parse(e.target.result);
-      if(imported.habits&&imported.log){
-        if(confirm("Заменить все текущие данные?")){
-          D=imported;save();render();alert("✅ Данные импортированы");
-        }
-      }else alert("❌ Неверный формат файла");
-    }catch(err){alert("❌ Ошибка чтения файла");}
-  };
-  reader.readAsText(file);
-}
-function confirmReset(){
-  if(confirm("⚠️ Удалить ВСЕ привычки и записи?\nЭто действие нельзя отменить!")){
-    D={habits:[],log:{}};save();render();
-  }
-}
-
+// ── BOTTOM SHEETS ──
 function openBSheet(id){document.getElementById(id).classList.add("on");}
 function closeBSheet(id,e){
   if(!e||e.target===document.getElementById(id))
@@ -977,75 +680,22 @@ function closeBSheet(id,e){
 
 function esc(s){return(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 
-function render(resetScroll){
+// ── РЕНДЕР ──
+function render(){
   renderHeader();
   const m=document.getElementById("content");
-  const savedScroll=m.scrollTop;
   if(tab==="today")      m.innerHTML=renderToday();
   else if(tab==="week")  m.innerHTML=renderWeek();
   else if(tab==="stats") m.innerHTML=renderStats();
   else if(tab==="manage")m.innerHTML=renderManage();
-  if(resetScroll)m.scrollTop=0;
-  else m.scrollTop=savedScroll;
+  m.scrollTop=0;
 }
 
-load();applyTheme();buildTGrid();buildIconGrid();buildColorGrid();render();
+// ── СТАРТ ──
+load();applyTheme();buildTGrid();buildColorGrid();render();
 window.addEventListener("beforeunload",save);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")save();});
-
-// === НАПОМИНАНИЯ ===
-function requestNotifPermission(){
-  if(!("Notification" in window))return false;
-  if(Notification.permission==="granted")return true;
-  if(Notification.permission!=="denied"){
-    Notification.requestPermission().then(p=>{
-      if(p==="granted")alert("✅ Уведомления включены!");
-    });
-  }
-  return Notification.permission==="granted";
-}
-
-function checkReminders(){
-  if(!("Notification" in window)||Notification.permission!=="granted")return;
-  const now=new Date();
-  const hh=String(now.getHours()).padStart(2,"0");
-  const mm=String(now.getMinutes()).padStart(2,"0");
-  const currentTime=hh+":"+mm;
-  const today=todayStr();
-  const lastNotifKey="hab_notif_"+today;
-  const notifiedToday=JSON.parse(localStorage.getItem(lastNotifKey)||"[]");
-  
-  D.habits.forEach(h=>{
-    if(h.remind===currentTime&&isActiveDay(h,today)&&!isChecked(h.id,today)){
-      if(!notifiedToday.includes(h.id)){
-        try{
-          new Notification("⏰ "+h.name,{
-            body:"Время выполнить привычку!",
-            icon:"data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><text y=\".9em\" font-size=\"90\">"+h.icon+"</text></svg>",
-            tag:"habit-"+h.id,
-          });
-          notifiedToday.push(h.id);
-          localStorage.setItem(lastNotifKey,JSON.stringify(notifiedToday));
-        }catch(e){console.log("Notif error:",e);}
-      }
-    }
-  });
-}
-
-// Проверяем напоминания каждую минуту
-setInterval(checkReminders,60000);
-// И сразу при загрузке
-setTimeout(checkReminders,2000);
-
-// Запросить разрешение когда пользователь устанавливает первое напоминание
-const origSaveHabit=saveHabit;
-saveHabit=function(){
-  const hasRemind=document.getElementById("h-remind").value;
-  if(hasRemind&&"Notification" in window&&Notification.permission==="default"){
-    Notification.requestPermission();
-  }
-  origSaveHabit();
-};
+window.addEventListener("resize",renderHeader);
 </script>
 
 </body>

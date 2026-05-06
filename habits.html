@@ -595,7 +595,24 @@ localStorage.setItem(lastNotifKey,JSON.stringify(notifiedToday));
 });
 }
 
-load();applyTheme();buildTGrid();buildIconGrid();buildColorGrid();render();
+function init(){
+try{
+load();
+applyTheme();
+buildTGrid();
+buildIconGrid();
+buildColorGrid();
+render();
+}catch(e){
+console.error(“Init error:”,e);
+alert(“Ошибка загрузки: “+e.message);
+}
+}
+if(document.readyState===“loading”){
+document.addEventListener(“DOMContentLoaded”,init);
+}else{
+init();
+}
 window.addEventListener(“beforeunload”,save);
 document.addEventListener(“visibilitychange”,function(){if(document.visibilityState===“hidden”)save();else checkReminders();});
 setInterval(checkReminders,60000);

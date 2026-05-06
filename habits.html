@@ -43,16 +43,18 @@ button{cursor:pointer;}
   background:var(--a);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
 
 /* Вкладки */
-#tabs{position:fixed;bottom:0;left:0;right:0;z-index:100;
-  background:var(--card);border-top:1px solid var(--border);display:flex;padding-bottom:var(--sb);}
+#tabs{position:fixed;bottom:0;left:0;right:0;z-index:150;
+  background:var(--card);border-top:1px solid var(--border);display:flex;padding-bottom:var(--sb);
+  pointer-events:auto;}
 .tb{flex:1;display:flex;flex-direction:column;align-items:center;
   padding:8px 0;border:none;background:transparent;gap:2px;}
 .tbi{font-size:22px;}.tbl{font-size:10px;font-weight:500;color:var(--muted);}
 .tb.on .tbl{color:var(--a);}
 
 #content{position:fixed;top:0;left:0;right:0;bottom:0;
-  overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--sb)+62px);}
+  overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--sb)+80px);}
 #content::-webkit-scrollbar{display:none;}
+#content{pointer-events:auto;}
 
 /* Карточки */
 .card{background:var(--card);border-radius:16px;margin:0 16px 12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07);}
@@ -60,7 +62,7 @@ button{cursor:pointer;}
 .ct{font-size:15px;font-weight:700;}.cb{font-size:12px;color:var(--muted);}
 
 /* Привычка строка */
-.hab-row{padding:14px 16px;border-bottom:1px solid var(--border);position:relative;}
+.hab-row{padding:14px 16px;border-bottom:1px solid var(--border);position:relative;cursor:pointer;z-index:10;}
 .hab-row:last-child{border-bottom:none;}
 .hab-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
 .hab-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
@@ -77,7 +79,8 @@ button{cursor:pointer;}
 .day-lbl{font-size:9px;font-weight:700;color:var(--muted);}
 .day-btn{width:100%;aspect-ratio:1;border-radius:50%;border:2px solid var(--border);
   background:transparent;display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:var(--muted);transition:.15s;max-width:36px;}
+  font-size:11px;font-weight:700;color:var(--muted);transition:.15s;max-width:36px;
+  cursor:pointer;position:relative;z-index:20;}
 .day-btn.done{border-color:var(--a);background:var(--a);color:#fff;}
 .day-btn.today{border-color:var(--a);color:var(--a);}
 .day-btn.future{opacity:.3;}
@@ -119,11 +122,11 @@ button{cursor:pointer;}
 .bsbox::-webkit-scrollbar{display:none;}
 .bsh{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 16px;}
 .bst{font-size:18px;font-weight:700;margin-bottom:16px;}
-.bsbtn{width:100%;padding:14px;border-radius:13px;border:none;font-size:16px;font-weight:700;margin-bottom:8px;}
+.bsbtn{width:100%;padding:14px;border-radius:13px;border:none;font-size:16px;font-weight:700;margin-bottom:8px;cursor:pointer;z-index:20;position:relative;}
 .bsbtn.ok{background:var(--a);color:#fff;}
 .bsbtn.cl{background:var(--inp);color:var(--muted);}
 .bsbtn.rm{background:#ff3b30;color:#fff;}
-.bs-inp{width:100%;background:var(--inp);border:none;border-radius:12px;padding:12px 14px;font-size:16px;color:var(--text);outline:none;margin-bottom:10px;}
+.bs-inp{width:100%;background:var(--inp);border:none;border-radius:12px;padding:12px 14px;font-size:16px;color:var(--text);outline:none;margin-bottom:10px;cursor:text;z-index:20;position:relative;}
 
 /* Выбор цвета */
 .color-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
@@ -132,7 +135,7 @@ button{cursor:pointer;}
 
 /* Частота */
 .freq-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
-.freq-btn{padding:8px 14px;border-radius:10px;border:none;background:var(--inp);font-size:13px;font-weight:600;color:var(--muted);}
+.freq-btn{padding:8px 14px;border-radius:10px;border:none;background:var(--inp);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;z-index:20;position:relative;}
 .freq-btn.on{background:var(--a);color:#fff;}
 
 /* Тема */
@@ -153,7 +156,8 @@ button{cursor:pointer;}
 
 /* FAB */
 #fab{position:fixed;right:20px;z-index:99;width:56px;height:56px;border-radius:50%;
-  background:var(--a);border:none;color:#fff;font-size:28px;box-shadow:0 4px 16px rgba(0,0,0,.2);}
+  background:var(--a);border:none;color:#fff;font-size:28px;box-shadow:0 4px 16px rgba(0,0,0,.2);
+  pointer-events:auto;cursor:pointer;}
 
 .empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;line-height:1.7;}
 .empty-i{font-size:44px;margin-bottom:10px;}

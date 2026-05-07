@@ -8,10 +8,16 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Трекер">
 <meta name="theme-color" content="#e8efe9">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23a3c9a8'/%3E%3Cpath d='M55 90l25 25 50-50' stroke='white' stroke-width='12' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogItCi0YDQtdC60LXRgCDQv9GA0LjQstGL0YfQtdC6IiwKICAic2hvcnRfbmFtZSI6ICLQotGA0LXQutC10YAiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiI2EzYzlhOCIKfQ==">
 <title>Трекер привычек</title>
 <style>
+  html {
+    color-scheme: light;
+  }
+  [data-theme="dark"] { color-scheme: dark; }
   :root {
     --bg: #eef2ee;
     --bg-grad: linear-gradient(180deg, #e8efe9 0%, #f1f4ef 100%);
@@ -51,6 +57,16 @@
     --shadow-modal: 0 -8px 32px rgba(0,0,0,0.5);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  button, input, select, textarea {
+    font-family: inherit;
+    color: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type="text"] {
+    -webkit-text-fill-color: var(--text);
+    opacity: 1;
+  }
   html, body {
     margin: 0; padding: 0;
     background: var(--bg);
@@ -109,19 +125,23 @@ box-shadow: var(–shadow);
 }
 .view-toggle button {
 flex: 1;
-background: none; border: none;
+background: transparent;
+border: none;
 padding: 9px;
 font-size: 13px;
-color: var(–text-muted);
+color: #8a8a8a;
 border-radius: 7px;
 font-weight: 500;
 transition: all 0.2s;
+cursor: pointer;
 }
 .view-toggle button.active {
-background: var(–accent-bg);
-color: var(–accent-deep);
+background: #e2eee3;
+color: #6b9c73;
 font-weight: 600;
 }
+[data-theme=“dark”] .view-toggle button { color: #888; }
+[data-theme=“dark”] .view-toggle button.active { background: #1f2a21; color: #a3c9a8; }
 
 /* Progress summary */
 .summary {
@@ -222,7 +242,7 @@ text-overflow: ellipsis;
 }
 tr:nth-child(even) .habit-name { background: var(–row-alt); }
 .habit-row td.day-cell {
-width: 28px; height: 32px;
+width: 30px; height: 34px;
 cursor: pointer;
 user-select: none;
 }
@@ -231,37 +251,42 @@ user-select: none;
 
 .check {
 display: inline-block;
-width: 18px; height: 18px;
-border: 1.5px solid var(–check-border);
+width: 20px; height: 20px;
+border: 1.5px solid #9aa89a;
 border-radius: 4px;
-background: var(–surface);
+background: #ffffff;
 position: relative;
 transition: all 0.15s;
 box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
 }
 [data-theme=“dark”] .check {
 background: #0f110f;
+border-color: #555a55;
 box-shadow: inset 0 1px 0 rgba(0,0,0,0.3);
 }
 .day-cell.today .check {
-border-color: var(–accent-deep);
+border-color: #6b9c73;
 border-width: 2px;
-box-shadow: 0 0 0 2px var(–accent-bg);
+box-shadow: 0 0 0 2px #e2eee3;
+}
+[data-theme=“dark”] .day-cell.today .check {
+border-color: #a3c9a8;
+box-shadow: 0 0 0 2px #1f2a21;
 }
 .day-cell.checked .check {
-background: var(–accent-deep);
-border-color: var(–accent-deep);
+background: #6b9c73;
+border-color: #6b9c73;
 box-shadow: 0 1px 3px rgba(107,156,115,0.3);
 }
 [data-theme=“dark”] .day-cell.checked .check {
-background: var(–accent-deep);
-border-color: var(–accent-deep);
+background: #7fae87;
+border-color: #7fae87;
 }
 .day-cell.checked .check::after {
 content: ‘’;
 position: absolute;
-left: 5px; top: 1.5px;
-width: 4px; height: 9px;
+left: 6px; top: 2px;
+width: 5px; height: 10px;
 border: solid #ffffff;
 border-width: 0 2px 2px 0;
 transform: rotate(45deg);
@@ -272,7 +297,10 @@ border-color: #0d0d0d;
 .day-cell.future .check {
 opacity: 0.35;
 pointer-events: none;
-background: var(–row-alt);
+background: #f3f6f3;
+}
+[data-theme=“dark”] .day-cell.future .check {
+background: #141614;
 }
 .day-cell:active .check {
 transform: scale(0.85);
@@ -419,14 +447,20 @@ backdrop-filter: blur(4px);
 }
 .modal-overlay.show { display: flex; animation: fadeIn 0.2s; }
 .modal {
-background: var(–modal-bg);
+background: #f4f7f3;
 width: 100%;
 max-width: 520px;
 border-radius: 20px 20px 0 0;
 padding: 18px 18px calc(18px + env(safe-area-inset-bottom));
 animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-box-shadow: var(–shadow-modal);
-border-top: 1px solid var(–border);
+box-shadow: 0 -8px 32px rgba(0,0,0,0.12);
+border-top: 1px solid #dde2dd;
+color: #1a1a1a;
+}
+[data-theme=“dark”] .modal {
+background: #1c1f1c;
+border-top-color: #2a2d2a;
+color: #f0f0f0;
 }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -457,19 +491,38 @@ box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
 .modal-actions { display: flex; gap: 8px; margin-top: 6px; }
 .btn {
 flex: 1;
-padding: 12px;
+padding: 13px;
 border-radius: 10px;
 border: none;
 font-size: 14px;
-font-weight: 500;
+font-weight: 600;
 cursor: pointer;
 font-family: inherit;
 }
-.btn-primary { background: var(–accent); color: #fff; }
-[data-theme=“dark”] .btn-primary { color: #0d0d0d; }
-.btn-secondary { background: var(–row-alt); color: var(–text); border: 1px solid var(–border); }
-.btn-danger { background: #fff0f0; color: #c44; border: 1px solid #fcc; }
-[data-theme=“dark”] .btn-danger { background: #2a1818; color: #f88; border-color: #4a2828; }
+.btn-primary {
+background: #a3c9a8;
+color: #ffffff !important;
+-webkit-text-fill-color: #ffffff;
+box-shadow: 0 2px 6px rgba(107,156,115,0.25);
+}
+[data-theme=“dark”] .btn-primary {
+color: #0d0d0d !important;
+-webkit-text-fill-color: #0d0d0d;
+}
+.btn-secondary {
+background: #ffffff;
+color: #1a1a1a !important;
+-webkit-text-fill-color: #1a1a1a;
+border: 1px solid #dde2dd;
+}
+[data-theme=“dark”] .btn-secondary {
+background: #1f221f;
+color: #f0f0f0 !important;
+-webkit-text-fill-color: #f0f0f0;
+border-color: #2a2d2a;
+}
+.btn-danger { background: #fff0f0; color: #c44 !important; -webkit-text-fill-color: #c44; border: 1px solid #fcc; }
+[data-theme=“dark”] .btn-danger { background: #2a1818; color: #f88 !important; -webkit-text-fill-color: #f88; border-color: #4a2828; }
 .emoji-grid {
 display: grid;
 grid-template-columns: repeat(8, 1fr);

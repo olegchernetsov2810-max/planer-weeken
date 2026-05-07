@@ -386,7 +386,7 @@ text-transform: uppercase;
 letter-spacing: 0.5px;
 margin-bottom: 10px;
 }
-.chart-svg { width: 100%; height: 110px; display: block; }
+.chart-svg { width: 100%; height: 140px; display: block; }
 
 /* Year stats */
 .year-card {
@@ -550,21 +550,63 @@ box-shadow: 0 1px 3px rgba(107,156,115,0.3);
 }
 
 /* Habit list in modal */
-.habit-edit-list { max-height: 50vh; overflow-y: auto; }
+.habit-edit-list { max-height: 60vh; overflow-y: auto; margin-bottom: 8px; }
 .habit-edit-row {
-display: flex; align-items: center; gap: 8px;
-padding: 10px 0;
+display: flex; align-items: center; gap: 6px;
+padding: 8px 0;
 border-bottom: 1px solid var(–border);
 }
 .habit-edit-row:last-child { border-bottom: none; }
-.habit-edit-emoji { font-size: 18px; width: 28px; text-align: center; }
-.habit-edit-name { flex: 1; font-size: 14px; }
-.habit-edit-del {
-background: none; border: none;
-color: #c44; font-size: 18px;
-width: 32px; height: 32px;
+.habit-edit-emoji-btn {
+background: #ffffff;
+border: 1.5px solid #dde2dd;
 border-radius: 8px;
+width: 38px; height: 38px;
+font-size: 20px;
+flex-shrink: 0;
 cursor: pointer;
+}
+[data-theme=“dark”] .habit-edit-emoji-btn { background: #1f221f; border-color: #2a2d2a; }
+.habit-edit-emoji-btn:active { transform: scale(0.92); }
+.habit-edit-input {
+flex: 1; min-width: 0;
+padding: 9px 11px !important;
+margin-bottom: 0 !important;
+font-size: 14px !important;
+border: 1.5px solid #dde2dd !important;
+border-radius: 8px !important;
+background: #ffffff !important;
+color: #1a1a1a !important;
+-webkit-text-fill-color: #1a1a1a;
+}
+[data-theme=“dark”] .habit-edit-input {
+background: #1f221f !important;
+color: #f0f0f0 !important;
+-webkit-text-fill-color: #f0f0f0;
+border-color: #2a2d2a !important;
+}
+.habit-edit-controls { display: flex; gap: 2px; flex-shrink: 0; }
+.habit-icon-btn {
+background: transparent;
+border: none;
+width: 30px; height: 34px;
+border-radius: 6px;
+color: #6b9c73;
+-webkit-text-fill-color: #6b9c73;
+font-size: 16px;
+cursor: pointer;
+}
+[data-theme=“dark”] .habit-icon-btn { color: #a3c9a8; -webkit-text-fill-color: #a3c9a8; }
+.habit-icon-btn:disabled { opacity: 0.25; }
+.habit-icon-btn:active:not(:disabled) { background: #e2eee3; }
+[data-theme=“dark”] .habit-icon-btn:active:not(:disabled) { background: #1f2a21; }
+.habit-icon-del { color: #c44 !important; -webkit-text-fill-color: #c44; }
+[data-theme=“dark”] .habit-icon-del { color: #f88 !important; -webkit-text-fill-color: #f88; }
+.edit-modal-hint {
+font-size: 11px;
+color: var(–text-muted);
+text-align: center;
+margin-bottom: 10px;
 }
 
 /* Toast */
@@ -660,9 +702,23 @@ cursor: pointer;
   <div class="modal">
     <div class="modal-handle"></div>
     <h3>Мои привычки</h3>
+    <div class="edit-modal-hint">Тапни эмодзи чтобы сменить, текст — чтобы переименовать</div>
     <div class="habit-edit-list" id="habitEditList"></div>
     <div class="modal-actions">
       <button class="btn btn-secondary" id="closeEdit">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<!-- Emoji picker for edit -->
+
+<div class="modal-overlay" id="emojiPickerModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>Выбери эмодзи</h3>
+    <div class="emoji-grid" id="emojiPickerGrid"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="closeEmojiPicker">Отмена</button>
     </div>
   </div>
 </div>
@@ -714,13 +770,14 @@ function ymd(d) {
 function daysInMonth(year, month) {
   return new Date(year, month+1, 0).getDate();
 }
+function todayStr() {
+  return ymd(new Date());
+}
 function isToday(d) {
-  const t = new Date();
-  return d.getDate() === t.getDate() && d.getMonth() === t.getMonth() && d.getFullYear() === t.getFullYear();
+  return ymd(d) === todayStr();
 }
 function isFuture(d) {
-  const t = new Date(); t.setHours(0,0,0,0);
-  return d > t;
+  return ymd(d) > todayStr();
 }
 function getWeekDates(today) {
   // Monday start week
@@ -829,7 +886,7 @@ function render() {
   } else {
     html += renderTracker();
     html += `<button class="add-habit-btn" onclick="openAddModal()">＋ Добавить привычку</button>`;
-    if (state.view === 'month') html += renderChart();
+    if (state.view === 'month' || state.view === 'week') html += renderChart();
   }
 
   view.innerHTML = html;
@@ -902,38 +959,78 @@ function renderChart() {
   const points = [];
   for (let d = 1; d <= days; d++) {
     const c = dayCompletion(y, m, d);
-    points.push(c.pct === null ? null : c.pct);
+    points.push(c.pct); // null for future
   }
-  const W = 320, H = 90, padX = 8, padY = 6;
-  const innerW = W - padX*2, innerH = H - padY*2;
-  const stepX = innerW / (days - 1 || 1);
 
-  // Build path (ignore nulls by closing)
-  let pathD = '';
-  let started = false;
-  let lastX = padX, lastY = H - padY;
-  points.forEach((p, i) => {
-    if (p === null) return;
-    const x = padX + i * stepX;
-    const yy = padY + innerH - (p / 100) * innerH;
-    if (!started) { pathD += `M ${x} ${H-padY} L ${x} ${yy}`; started = true; }
-    else { pathD += ` L ${x} ${yy}`; }
-    lastX = x; lastY = yy;
+  const W = 340, H = 130;
+  const padL = 28, padR = 10, padT = 10, padB = 22;
+  const innerW = W - padL - padR;
+  const innerH = H - padT - padB;
+  const stepX = days > 1 ? innerW / (days - 1) : 0;
+
+  const xy = (i, p) => ({
+    x: padL + i * stepX,
+    y: padT + innerH - (p / 100) * innerH
   });
-  if (started) pathD += ` L ${lastX} ${H-padY} Z`;
 
-  // Grid lines
-  const gridLines = [0, 25, 50, 75, 100].map(v => {
-    const yy = padY + innerH - (v / 100) * innerH;
-    return `<line x1="${padX}" y1="${yy}" x2="${W-padX}" y2="${yy}" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="2 2"/>`;
+  // Build area path connecting only non-null points
+  let areaSegments = [];
+  let currentSeg = [];
+  points.forEach((p, i) => {
+    if (p === null) {
+      if (currentSeg.length) { areaSegments.push(currentSeg); currentSeg = []; }
+    } else {
+      currentSeg.push({ i, p });
+    }
+  });
+  if (currentSeg.length) areaSegments.push(currentSeg);
+
+  let areaPath = '', linePath = '';
+  areaSegments.forEach(seg => {
+    if (seg.length === 0) return;
+    const first = xy(seg[0].i, seg[0].p);
+    const baseY = padT + innerH;
+    areaPath += `M ${first.x} ${baseY} L ${first.x} ${first.y} `;
+    linePath += `M ${first.x} ${first.y} `;
+    for (let k = 1; k < seg.length; k++) {
+      const pt = xy(seg[k].i, seg[k].p);
+      areaPath += `L ${pt.x} ${pt.y} `;
+      linePath += `L ${pt.x} ${pt.y} `;
+    }
+    const last = xy(seg[seg.length-1].i, seg[seg.length-1].p);
+    areaPath += `L ${last.x} ${baseY} Z `;
+  });
+
+  // Y-axis grid + labels
+  const gridVals = [0, 25, 50, 75, 100];
+  const gridLines = gridVals.map(v => {
+    const yy = padT + innerH - (v/100) * innerH;
+    return `<line x1="${padL}" y1="${yy}" x2="${W-padR}" y2="${yy}" stroke="#dde2dd" stroke-width="0.5" stroke-dasharray="2 2"/>
+            <text x="${padL-4}" y="${yy+3}" text-anchor="end" font-size="8" fill="#8a8a8a">${v}%</text>`;
   }).join('');
+
+  // X-axis day labels (every 5 days + last)
+  const xLabels = [];
+  for (let d = 1; d <= days; d++) {
+    if (d === 1 || d === days || d % 5 === 0) {
+      const x = padL + (d-1) * stepX;
+      xLabels.push(`<text x="${x}" y="${H-6}" text-anchor="middle" font-size="8" fill="#8a8a8a">${d}</text>`);
+    }
+  }
 
   return `<div class="chart-card">
     <div class="chart-title">График выполнения</div>
-    <svg class="chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <svg class="chart-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="chartGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#a3c9a8" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#a3c9a8" stop-opacity="0.15"/>
+        </linearGradient>
+      </defs>
       ${gridLines}
-      <path d="${pathD}" fill="var(--accent-soft)" opacity="0.6"/>
-      <path d="${pathD.replace(/Z$/,'').replace(/^M [^L]+L/, 'M ')}" fill="none" stroke="var(--accent-deep)" stroke-width="1.2"/>
+      <path d="${areaPath}" fill="url(#chartGrad)"/>
+      <path d="${linePath}" fill="none" stroke="#6b9c73" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+      ${xLabels.join('')}
     </svg>
   </div>`;
 }
@@ -1057,25 +1154,81 @@ function openEditModal() {
   if (state.habits.length === 0) {
     list.innerHTML = '<div class="empty"><div class="empty-text">Пока нет привычек</div></div>';
   } else {
-    list.innerHTML = state.habits.map(h =>
-      `<div class="habit-edit-row">
-        <div class="habit-edit-emoji">${h.emoji}</div>
-        <div class="habit-edit-name">${escapeHtml(h.name)}</div>
-        <button class="habit-edit-del" data-id="${h.id}">🗑</button>
+    list.innerHTML = state.habits.map((h, i) =>
+      `<div class="habit-edit-row" data-id="${h.id}">
+        <button class="habit-edit-emoji-btn" data-action="emoji" data-id="${h.id}" title="Сменить эмодзи">${h.emoji}</button>
+        <input class="habit-edit-input" data-id="${h.id}" type="text" value="${escapeAttr(h.name)}" maxlength="40">
+        <div class="habit-edit-controls">
+          <button class="habit-icon-btn" data-action="up" data-id="${h.id}" ${i===0?'disabled':''}>↑</button>
+          <button class="habit-icon-btn" data-action="down" data-id="${h.id}" ${i===state.habits.length-1?'disabled':''}>↓</button>
+          <button class="habit-icon-btn habit-icon-del" data-action="del" data-id="${h.id}">🗑</button>
+        </div>
       </div>`
     ).join('');
-    list.querySelectorAll('.habit-edit-del').forEach(b => {
+
+    // Rename on input change
+    list.querySelectorAll('.habit-edit-input').forEach(input => {
+      input.addEventListener('change', () => {
+        const h = state.habits.find(x => x.id === input.dataset.id);
+        if (h) {
+          const v = input.value.trim();
+          if (v) { h.name = v; save(); render(); }
+          else { input.value = h.name; }
+        }
+      });
+      input.addEventListener('blur', () => input.dispatchEvent(new Event('change')));
+    });
+
+    // Action buttons
+    list.querySelectorAll('button[data-action]').forEach(b => {
       b.addEventListener('click', () => {
-        if (confirm('Удалить привычку? История останется в данных.')) {
-          state.habits = state.habits.filter(h => h.id !== b.dataset.id);
-          save();
-          openEditModal();
-          render();
+        const id = b.dataset.id;
+        const action = b.dataset.action;
+        const idx = state.habits.findIndex(x => x.id === id);
+        if (idx < 0) return;
+
+        if (action === 'del') {
+          if (confirm('Удалить привычку? История останется в данных.')) {
+            state.habits.splice(idx, 1);
+            save(); openEditModal(); render();
+          }
+        } else if (action === 'up' && idx > 0) {
+          [state.habits[idx-1], state.habits[idx]] = [state.habits[idx], state.habits[idx-1]];
+          save(); openEditModal(); render();
+        } else if (action === 'down' && idx < state.habits.length - 1) {
+          [state.habits[idx], state.habits[idx+1]] = [state.habits[idx+1], state.habits[idx]];
+          save(); openEditModal(); render();
+        } else if (action === 'emoji') {
+          openEmojiPicker(id);
         }
       });
     });
   }
   document.getElementById('editModal').classList.add('show');
+}
+
+function openEmojiPicker(habitId) {
+  const h = state.habits.find(x => x.id === habitId);
+  if (!h) return;
+  const picker = document.getElementById('emojiPickerModal');
+  const grid = document.getElementById('emojiPickerGrid');
+  grid.innerHTML = EMOJIS.map(e =>
+    `<button class="emoji-btn${e===h.emoji?' selected':''}" data-emoji="${e}">${e}</button>`
+  ).join('');
+  grid.querySelectorAll('.emoji-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      h.emoji = b.dataset.emoji;
+      save();
+      picker.classList.remove('show');
+      openEditModal();
+      render();
+    });
+  });
+  picker.classList.add('show');
+}
+
+function escapeAttr(s) {
+  return s.replace(/"/g, '&quot;').replace(/</g, '&lt;');
 }
 function closeEditModal() {
   document.getElementById('editModal').classList.remove('show');
@@ -1122,6 +1275,8 @@ document.getElementById('confirmAdd').addEventListener('click', confirmAdd);
 document.getElementById('closeEdit').addEventListener('click', closeEditModal);
 document.getElementById('addModal').addEventListener('click', e => { if (e.target.id === 'addModal') closeAddModal(); });
 document.getElementById('editModal').addEventListener('click', e => { if (e.target.id === 'editModal') closeEditModal(); });
+document.getElementById('closeEmojiPicker').addEventListener('click', () => document.getElementById('emojiPickerModal').classList.remove('show'));
+document.getElementById('emojiPickerModal').addEventListener('click', e => { if (e.target.id === 'emojiPickerModal') document.getElementById('emojiPickerModal').classList.remove('show'); });
 
 // Show install hint on iOS Safari first time
 function checkInstallHint() {

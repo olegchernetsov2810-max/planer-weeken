@@ -7,38 +7,48 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Трекер">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#e8efe9">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23a3c9a8'/%3E%3Cpath d='M55 90l25 25 50-50' stroke='white' stroke-width='12' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogItCi0YDQtdC60LXRgCDQv9GA0LjQstGL0YfQtdC6IiwKICAic2hvcnRfbmFtZSI6ICLQotGA0LXQutC10YAiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiI2EzYzlhOCIKfQ==">
 <title>Трекер привычек</title>
 <style>
   :root {
-    --bg: #ffffff;
+    --bg: #eef2ee;
+    --bg-grad: linear-gradient(180deg, #e8efe9 0%, #f1f4ef 100%);
     --surface: #ffffff;
+    --surface-2: #f7faf7;
+    --modal-bg: #f4f7f3;
     --text: #1a1a1a;
-    --text-muted: #999;
-    --border: #e8e8e8;
-    --border-strong: #d0d0d0;
+    --text-muted: #8a8a8a;
+    --border: #dde2dd;
+    --border-strong: #b8c2b8;
+    --check-border: #9aa89a;
     --accent: #a3c9a8;
     --accent-soft: #c8dfca;
-    --accent-bg: #e8f1e9;
-    --accent-deep: #7fae87;
-    --row-alt: #fafafa;
-    --shadow: 0 1px 3px rgba(0,0,0,0.04);
+    --accent-bg: #e2eee3;
+    --accent-deep: #6b9c73;
+    --row-alt: #f3f6f3;
+    --shadow: 0 2px 8px rgba(60,80,60,0.06), 0 1px 2px rgba(60,80,60,0.04);
+    --shadow-modal: 0 -8px 32px rgba(0,0,0,0.12);
   }
   [data-theme="dark"] {
     --bg: #0d0d0d;
-    --surface: #161616;
+    --bg-grad: linear-gradient(180deg, #0d0d0d 0%, #131513 100%);
+    --surface: #181a18;
+    --surface-2: #1f221f;
+    --modal-bg: #1c1f1c;
     --text: #f0f0f0;
-    --text-muted: #777;
-    --border: #2a2a2a;
-    --border-strong: #3a3a3a;
+    --text-muted: #888;
+    --border: #2a2d2a;
+    --border-strong: #404540;
+    --check-border: #555a55;
     --accent: #7fae87;
     --accent-soft: #4a6e50;
     --accent-bg: #1f2a21;
     --accent-deep: #a3c9a8;
-    --row-alt: #121212;
-    --shadow: 0 1px 3px rgba(0,0,0,0.3);
+    --row-alt: #141614;
+    --shadow: 0 2px 8px rgba(0,0,0,0.4);
+    --shadow-modal: 0 -8px 32px rgba(0,0,0,0.5);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
@@ -51,6 +61,8 @@
     -webkit-font-smoothing: antialiased;
   }
   body {
+    background: var(--bg-grad);
+    background-attachment: fixed;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     min-height: 100vh;
   }
@@ -88,16 +100,17 @@
 /* Toggle */
 .view-toggle {
 display: flex;
-background: var(–row-alt);
+background: var(–surface);
 border-radius: 10px;
 padding: 3px;
 margin-bottom: 14px;
 border: 1px solid var(–border);
+box-shadow: var(–shadow);
 }
 .view-toggle button {
 flex: 1;
 background: none; border: none;
-padding: 8px;
+padding: 9px;
 font-size: 13px;
 color: var(–text-muted);
 border-radius: 7px;
@@ -105,9 +118,9 @@ font-weight: 500;
 transition: all 0.2s;
 }
 .view-toggle button.active {
-background: var(–surface);
-color: var(–text);
-box-shadow: var(–shadow);
+background: var(–accent-bg);
+color: var(–accent-deep);
+font-weight: 600;
 }
 
 /* Progress summary */
@@ -118,6 +131,7 @@ border-radius: 12px;
 padding: 12px 14px;
 margin-bottom: 14px;
 display: flex; align-items: center; gap: 12px;
+box-shadow: var(–shadow);
 }
 .summary-text { flex: 1; }
 .summary-label {
@@ -155,6 +169,7 @@ border: 1px solid var(–border);
 border-radius: 12px;
 overflow: hidden;
 margin-bottom: 14px;
+box-shadow: var(–shadow);
 }
 .tracker-scroll {
 overflow-x: auto;
@@ -207,7 +222,7 @@ text-overflow: ellipsis;
 }
 tr:nth-child(even) .habit-name { background: var(–row-alt); }
 .habit-row td.day-cell {
-width: 26px; height: 28px;
+width: 28px; height: 32px;
 cursor: pointer;
 user-select: none;
 }
@@ -216,36 +231,48 @@ user-select: none;
 
 .check {
 display: inline-block;
-width: 16px; height: 16px;
-border: 1.2px solid var(–border-strong);
-border-radius: 3px;
+width: 18px; height: 18px;
+border: 1.5px solid var(–check-border);
+border-radius: 4px;
+background: var(–surface);
 position: relative;
 transition: all 0.15s;
+box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+}
+[data-theme=“dark”] .check {
+background: #0f110f;
+box-shadow: inset 0 1px 0 rgba(0,0,0,0.3);
 }
 .day-cell.today .check {
 border-color: var(–accent-deep);
-box-shadow: 0 0 0 1.5px var(–accent-bg);
+border-width: 2px;
+box-shadow: 0 0 0 2px var(–accent-bg);
 }
 .day-cell.checked .check {
-background: var(–text);
-border-color: var(–text);
+background: var(–accent-deep);
+border-color: var(–accent-deep);
+box-shadow: 0 1px 3px rgba(107,156,115,0.3);
 }
 [data-theme=“dark”] .day-cell.checked .check {
-background: var(–text);
-border-color: var(–text);
+background: var(–accent-deep);
+border-color: var(–accent-deep);
 }
 .day-cell.checked .check::after {
 content: ‘’;
 position: absolute;
-left: 4px; top: 1px;
+left: 5px; top: 1.5px;
 width: 4px; height: 9px;
-border: solid var(–bg);
-border-width: 0 1.5px 1.5px 0;
+border: solid #ffffff;
+border-width: 0 2px 2px 0;
 transform: rotate(45deg);
 }
+[data-theme=“dark”] .day-cell.checked .check::after {
+border-color: #0d0d0d;
+}
 .day-cell.future .check {
-opacity: 0.3;
+opacity: 0.35;
 pointer-events: none;
+background: var(–row-alt);
 }
 .day-cell:active .check {
 transform: scale(0.85);
@@ -322,6 +349,7 @@ border: 1px solid var(–border);
 border-radius: 12px;
 padding: 14px;
 margin-bottom: 14px;
+box-shadow: var(–shadow);
 }
 .chart-title {
 font-size: 12px;
@@ -339,6 +367,7 @@ border: 1px solid var(–border);
 border-radius: 12px;
 padding: 14px;
 margin-bottom: 14px;
+box-shadow: var(–shadow);
 }
 .year-title {
 text-align: center;
@@ -390,12 +419,14 @@ backdrop-filter: blur(4px);
 }
 .modal-overlay.show { display: flex; animation: fadeIn 0.2s; }
 .modal {
-background: var(–bg);
+background: var(–modal-bg);
 width: 100%;
 max-width: 520px;
-border-radius: 18px 18px 0 0;
+border-radius: 20px 20px 0 0;
 padding: 18px 18px calc(18px + env(safe-area-inset-bottom));
 animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+box-shadow: var(–shadow-modal);
+border-top: 1px solid var(–border);
 }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -412,16 +443,17 @@ font-weight: 600;
 }
 .modal input, .modal select {
 width: 100%;
-padding: 12px 14px;
-border: 1px solid var(–border-strong);
+padding: 13px 14px;
+border: 1.5px solid var(–border-strong);
 border-radius: 10px;
 font-size: 15px;
 background: var(–surface);
 color: var(–text);
-margin-bottom: 10px;
+margin-bottom: 12px;
 font-family: inherit;
+box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
 }
-.modal input:focus { outline: none; border-color: var(–accent-deep); }
+.modal input:focus { outline: none; border-color: var(–accent-deep); box-shadow: 0 0 0 3px var(–accent-bg); }
 .modal-actions { display: flex; gap: 8px; margin-top: 6px; }
 .btn {
 flex: 1;
@@ -442,21 +474,27 @@ font-family: inherit;
 display: grid;
 grid-template-columns: repeat(8, 1fr);
 gap: 4px;
-margin-bottom: 10px;
+margin-bottom: 12px;
 max-height: 140px;
 overflow-y: auto;
-padding: 4px;
-background: var(–row-alt);
+padding: 6px;
+background: var(–surface);
+border: 1px solid var(–border);
 border-radius: 10px;
 }
 .emoji-btn {
 background: none; border: none;
 aspect-ratio: 1;
 font-size: 20px;
-border-radius: 6px;
+border-radius: 7px;
 cursor: pointer;
+transition: all 0.15s;
 }
-.emoji-btn.selected { background: var(–accent-bg); }
+.emoji-btn:active { transform: scale(0.9); }
+.emoji-btn.selected {
+background: var(–accent);
+box-shadow: 0 1px 3px rgba(107,156,115,0.3);
+}
 
 /* Habit list in modal */
 .habit-edit-list { max-height: 50vh; overflow-y: auto; }
@@ -1019,7 +1057,7 @@ document.getElementById('nextMonth').addEventListener('click', () => {
 document.getElementById('themeBtn').addEventListener('click', () => {
   state.theme = state.theme === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', state.theme);
-  document.querySelector('meta[name="theme-color"]').setAttribute('content', state.theme === 'dark' ? '#0d0d0d' : '#ffffff');
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', state.theme === 'dark' ? '#0d0d0d' : '#e8efe9');
   save();
 });
 document.getElementById('editBtn').addEventListener('click', openEditModal);

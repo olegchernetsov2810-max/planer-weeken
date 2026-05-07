@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
 <meta charset="UTF-8"/>
@@ -22,47 +23,45 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
 input,textarea,select,button{font-family:inherit;font-size:16px;}
 button{cursor:pointer;}
 
-#sb{height:var(--st);background:var(--card);position:sticky;top:0;z-index:200;}
-#hdr{background:var(--card);border-bottom:1px solid var(--border);padding:0 16px 12px;position:sticky;top:var(--st);z-index:200;}
+#sb{height:var(–st);background:var(–card);position:sticky;top:0;z-index:200;}
+#hdr{background:var(–card);border-bottom:1px solid var(–border);padding:0 16px 12px;position:sticky;top:var(–st);z-index:200;}
 .h1{display:flex;align-items:center;gap:8px;padding-top:10px;}
-.logo{font-size:20px;font-weight:800;color:var(--a);flex:1;}
-.ico{width:38px;height:38px;border-radius:12px;border:none;background:var(--inp);font-size:18px;display:flex;align-items:center;justify-content:center;}
+.logo{font-size:20px;font-weight:800;color:var(–a);flex:1;}
+.ico{width:38px;height:38px;border-radius:12px;border:none;background:var(–inp);font-size:18px;display:flex;align-items:center;justify-content:center;}
 .hdr-stats{display:flex;gap:10px;margin-top:8px;}
-.hstat{flex:1;background:var(--a2);border-radius:12px;padding:8px 10px;text-align:center;}
-.hstat-val{font-size:18px;font-weight:800;color:var(--a);}
-.hstat-lbl{font-size:10px;color:var(--muted);margin-top:1px;}
+.hstat{flex:1;background:var(–a2);border-radius:12px;padding:8px 10px;text-align:center;}
+.hstat-val{font-size:18px;font-weight:800;color:var(–a);}
+.hstat-lbl{font-size:10px;color:var(–muted);margin-top:1px;}
 
 /* Навигация по неделям */
-#wnav{background:var(--card);border-bottom:1px solid var(--border);
-  padding:8px 16px;display:flex;align-items:center;gap:8px;position:sticky;z-index:199;}
-.warr{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--border);
-  background:var(--inp);color:var(--text);font-size:22px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
+#wnav{background:var(–card);border-bottom:1px solid var(–border);
+padding:8px 16px;display:flex;align-items:center;gap:8px;position:sticky;z-index:199;}
+.warr{width:44px;height:44px;border-radius:12px;border:1.5px solid var(–border);
+background:var(–inp);color:var(–text);font-size:22px;
+display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
 .wlbl{flex:1;text-align:center;font-size:13px;font-weight:700;}
 .wnow{width:44px;height:44px;border-radius:12px;border:none;
-  background:var(--a);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
+background:var(–a);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;}
 
 /* Вкладки */
-#tabs{position:fixed;bottom:0;left:0;right:0;z-index:150;
-  background:var(--card);border-top:1px solid var(--border);display:flex;padding-bottom:var(--sb);
-  pointer-events:auto;}
+#tabs{position:fixed;bottom:0;left:0;right:0;z-index:100;
+background:var(–card);border-top:1px solid var(–border);display:flex;padding-bottom:var(–sb);}
 .tb{flex:1;display:flex;flex-direction:column;align-items:center;
-  padding:8px 0;border:none;background:transparent;gap:2px;}
-.tbi{font-size:22px;}.tbl{font-size:10px;font-weight:500;color:var(--muted);}
-.tb.on .tbl{color:var(--a);}
+padding:8px 0;border:none;background:transparent;gap:2px;}
+.tbi{font-size:22px;}.tbl{font-size:10px;font-weight:500;color:var(–muted);}
+.tb.on .tbl{color:var(–a);}
 
 #content{position:fixed;top:0;left:0;right:0;bottom:0;
-  overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--sb)+80px);}
+overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(–sb)+62px);}
 #content::-webkit-scrollbar{display:none;}
-#content{pointer-events:auto;}
 
 /* Карточки */
-.card{background:var(--card);border-radius:16px;margin:0 16px 12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07);}
-.ch{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);}
-.ct{font-size:15px;font-weight:700;}.cb{font-size:12px;color:var(--muted);}
+.card{background:var(–card);border-radius:16px;margin:0 16px 12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.ch{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(–border);}
+.ct{font-size:15px;font-weight:700;}.cb{font-size:12px;color:var(–muted);}
 
 /* Привычка строка */
-.hab-row{padding:14px 16px;border-bottom:1px solid var(--border);position:relative;cursor:pointer;z-index:10;}
+.hab-row{padding:14px 16px;border-bottom:1px solid var(–border);position:relative;}
 .hab-row:last-child{border-bottom:none;}
 .hab-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
 .hab-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
@@ -70,98 +69,116 @@ button{cursor:pointer;}
 .hab-name{font-size:15px;font-weight:700;}
 .hab-meta{display:flex;gap:8px;align-items:center;margin-top:3px;}
 .hab-streak{font-size:12px;font-weight:700;color:#ff9500;}
-.hab-pct{font-size:12px;color:var(--muted);}
+.hab-pct{font-size:12px;color:var(–muted);}
 .hab-edit{border:none;background:transparent;font-size:16px;opacity:.4;padding:4px;}
 
 /* Дни недели чекбоксы */
 .week-days{display:flex;gap:4px;}
 .day-check{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.day-lbl{font-size:9px;font-weight:700;color:var(--muted);}
-.day-btn{width:100%;aspect-ratio:1;border-radius:50%;border:2px solid var(--border);
-  background:transparent;display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:var(--muted);transition:.15s;max-width:36px;
-  cursor:pointer;position:relative;z-index:20;}
-.day-btn.done{border-color:var(--a);background:var(--a);color:#fff;}
-.day-btn.today{border-color:var(--a);color:var(--a);}
+.day-lbl{font-size:9px;font-weight:700;color:var(–muted);}
+.day-btn{width:100%;aspect-ratio:1;border-radius:50%;border:2px solid var(–border);
+background:transparent;display:flex;align-items:center;justify-content:center;
+font-size:11px;font-weight:700;color:var(–muted);transition:.15s;max-width:36px;}
+.day-btn.done{border-color:var(–a);background:var(–a);color:#fff;}
+.day-btn.today{border-color:var(–a);color:var(–a);}
 .day-btn.future{opacity:.3;}
 
 /* Статистика привычки */
 .hab-stats-row{display:flex;gap:6px;margin-top:8px;}
-.hab-stat{flex:1;background:var(--inp);border-radius:10px;padding:8px 6px;text-align:center;}
-.hab-stat-val{font-size:14px;font-weight:800;color:var(--a);}
-.hab-stat-lbl{font-size:10px;color:var(--muted);margin-top:1px;}
+.hab-stat{flex:1;background:var(–inp);border-radius:10px;padding:8px 6px;text-align:center;}
+.hab-stat-val{font-size:14px;font-weight:800;color:var(–a);}
+.hab-stat-lbl{font-size:10px;color:var(–muted);margin-top:1px;}
 
 /* Календарь месяца для привычки */
 .month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:12px 16px;}
-.mgd{aspect-ratio:1;border-radius:8px;border:none;background:var(--inp);
-  font-size:11px;font-weight:600;color:var(--muted);display:flex;align-items:center;justify-content:center;}
-.mgd.done{background:var(--a);color:#fff;}
-.mgd.today{border:2px solid var(--a);}
+.mgd{aspect-ratio:1;border-radius:8px;border:none;background:var(–inp);
+font-size:11px;font-weight:600;color:var(–muted);display:flex;align-items:center;justify-content:center;}
+.mgd.done{background:var(–a);color:#fff;}
+.mgd.today{border:2px solid var(–a);}
 .mgd.empty{background:transparent;}
 
 /* Аналитика */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px;}
-.sc{background:var(--card);border-radius:16px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
-.si{font-size:26px;margin-bottom:6px;}.sv{font-size:22px;font-weight:800;color:var(--a);}
-.sl2{font-size:11px;color:var(--muted);margin-top:2px;}
+.sc{background:var(–card);border-radius:16px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.si{font-size:26px;margin-bottom:6px;}.sv{font-size:22px;font-weight:800;color:var(–a);}
+.sl2{font-size:11px;color:var(–muted);margin-top:2px;}
 
 /* Бар прогресс привычки */
-.hab-progress-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.hab-progress-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(–border);}
 .hab-progress-row:last-child{border-bottom:none;}
 .hp-icon{font-size:20px;}
 .hp-info{flex:1;}
 .hp-name{font-size:13px;font-weight:600;}
-.hp-bar{height:4px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden;}
-.hp-fill{height:100%;border-radius:2px;background:var(--a);transition:width .4s;}
-.hp-pct{font-size:13px;font-weight:700;color:var(--a);}
+.hp-bar{height:4px;background:var(–border);border-radius:2px;margin-top:4px;overflow:hidden;}
+.hp-fill{height:100%;border-radius:2px;background:var(–a);transition:width .4s;}
+.hp-pct{font-size:13px;font-weight:700;color:var(–a);}
 
 /* Bottom sheets */
 .bsheet{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none;align-items:flex-end;}
 .bsheet.on{display:flex;}
-.bsbox{width:100%;background:var(--card);border-radius:22px 22px 0 0;padding:0 20px calc(var(--sb)+16px);max-height:92vh;overflow-y:auto;}
+.bsbox{width:100%;background:var(–card);border-radius:22px 22px 0 0;padding:0 20px calc(var(–sb)+16px);max-height:92vh;overflow-y:auto;}
 .bsbox::-webkit-scrollbar{display:none;}
-.bsh{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 16px;}
+.bsh{width:40px;height:4px;background:var(–border);border-radius:2px;margin:12px auto 16px;}
 .bst{font-size:18px;font-weight:700;margin-bottom:16px;}
-.bsbtn{width:100%;padding:14px;border-radius:13px;border:none;font-size:16px;font-weight:700;margin-bottom:8px;cursor:pointer;z-index:20;position:relative;}
-.bsbtn.ok{background:var(--a);color:#fff;}
-.bsbtn.cl{background:var(--inp);color:var(--muted);}
+.bsbtn{width:100%;padding:14px;border-radius:13px;border:none;font-size:16px;font-weight:700;margin-bottom:8px;}
+.bsbtn.ok{background:var(–a);color:#fff;}
+.bsbtn.cl{background:var(–inp);color:var(–muted);}
 .bsbtn.rm{background:#ff3b30;color:#fff;}
-.bs-inp{width:100%;background:var(--inp);border:none;border-radius:12px;padding:12px 14px;font-size:16px;color:var(--text);outline:none;margin-bottom:10px;cursor:text;z-index:20;position:relative;}
+.bs-inp{width:100%;background:var(–inp);border:none;border-radius:12px;padding:12px 14px;font-size:16px;color:var(–text);outline:none;margin-bottom:10px;}
 
 /* Выбор цвета */
 .color-grid{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
 .color-dot{width:44px;height:44px;border-radius:50%;border:3px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:transparent;font-size:18px;font-weight:700;}
-.color-dot.on{border-color:var(--text);color:#fff;}
+.color-dot.on{border-color:var(–text);color:#fff;}
 
 /* Частота */
 .freq-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
-.freq-btn{padding:8px 14px;border-radius:10px;border:none;background:var(--inp);font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;z-index:20;position:relative;}
-.freq-btn.on{background:var(--a);color:#fff;}
+.freq-btn{padding:8px 14px;border-radius:10px;border:none;background:var(–inp);font-size:13px;font-weight:600;color:var(–muted);}
+.freq-btn.on{background:var(–a);color:#fff;}
 
 /* Тема */
 #thOv{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;}
 #thOv.on{display:block;}
-#thSh{position:fixed;bottom:0;left:0;right:0;z-index:201;background:var(--card);
-  border-radius:22px 22px 0 0;padding:0 20px calc(var(--sb)+20px);
-  transform:translateY(100%);transition:transform .3s;}
+#thSh{position:fixed;bottom:0;left:0;right:0;z-index:201;background:var(–card);
+border-radius:22px 22px 0 0;padding:0 20px calc(var(–sb)+20px);
+transform:translateY(100%);transition:transform .3s;}
 #thSh.on{transform:translateY(0);}
 .tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
 .tdot{aspect-ratio:1;border-radius:50%;border:3px solid transparent;display:flex;align-items:center;justify-content:center;font-size:18px;color:transparent;font-weight:700;cursor:pointer;}
-.tdot.on{border-color:var(--text);color:#fff;}
-.dkrow{display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--inp);border-radius:14px;cursor:pointer;}
+.tdot.on{border-color:var(–text);color:#fff;}
+.dkrow{display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(–inp);border-radius:14px;cursor:pointer;}
 .dkl{font-size:15px;font-weight:600;}
-.sw{width:51px;height:31px;border-radius:16px;background:var(--border);position:relative;transition:.2s;}
+.sw{width:51px;height:31px;border-radius:16px;background:var(–border);position:relative;transition:.2s;}
 .sw.on{background:#34c759;}.swk{position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.2);transition:.2s;}
 .sw.on .swk{left:22px;}
 
 /* FAB */
 #fab{position:fixed;right:20px;z-index:99;width:56px;height:56px;border-radius:50%;
-  background:var(--a);border:none;color:#fff;font-size:28px;box-shadow:0 4px 16px rgba(0,0,0,.2);
-  pointer-events:auto;cursor:pointer;}
+background:var(–a);border:none;color:#fff;font-size:28px;box-shadow:0 4px 16px rgba(0,0,0,.2);}
 
-.empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;line-height:1.7;}
+.empty{text-align:center;padding:40px 20px;color:var(–muted);font-size:14px;line-height:1.7;}
 .empty-i{font-size:44px;margin-bottom:10px;}
+
+/* ПИКЕР ЭМОДЗИ */
+.emoji-picker{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:12px;max-height:200px;overflow-y:auto;padding:4px;}
+.emoji-picker::-webkit-scrollbar{display:none;}
+.emoji-btn{aspect-ratio:1;border:2px solid var(–border);border-radius:10px;background:transparent;
+display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;}
+.emoji-btn.on{border-color:var(–a);background:var(–a2);}
+.emoji-current{display:flex;align-items:center;gap:10px;padding:10px;background:var(–inp);border-radius:12px;margin-bottom:10px;}
+.emoji-current-display{width:44px;height:44px;border-radius:11px;background:var(–a2);display:flex;align-items:center;justify-content:center;font-size:24px;}
+.emoji-current-text{flex:1;font-size:13px;color:var(–muted);}
+
+/* НАСТРОЙКИ */
+.set-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(–border);cursor:pointer;}
+.set-row:last-child{border-bottom:none;}
+.set-icon{width:36px;height:36px;border-radius:10px;background:var(–a2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.set-info{flex:1;}
+.set-name{font-size:14px;font-weight:600;}
+.set-desc{font-size:11px;color:var(–muted);margin-top:2px;}
+.set-arrow{color:var(–muted);font-size:18px;}
 </style>
+
 </head>
 <body>
 <div id="sb"></div>
@@ -196,13 +213,18 @@ button{cursor:pointer;}
 </div>
 
 <!-- Редактор привычки -->
+
 <div class="bsheet" id="habitSheet" onclick="closeBSheet('habitSheet',event)">
   <div class="bsbox">
     <div class="bsh"></div>
     <div class="bst" id="habit-sheet-title">Новая привычка</div>
     <input class="bs-inp" id="h-name" placeholder="Название привычки..."/>
     <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Иконка</div>
-    <input class="bs-inp" id="h-icon" placeholder="Эмодзи иконка 🏃"/>
+    <div class="emoji-current">
+      <div class="emoji-current-display" id="emoji-current">⭐</div>
+      <div class="emoji-current-text">Выбери эмодзи ниже</div>
+    </div>
+    <div class="emoji-picker" id="emoji-picker"></div>
     <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Цвет</div>
     <div class="color-grid" id="color-grid"></div>
     <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;">Частота</div>
@@ -229,6 +251,7 @@ button{cursor:pointer;}
 </div>
 
 <!-- Детали привычки -->
+
 <div class="bsheet" id="detailSheet" onclick="closeBSheet('detailSheet',event)">
   <div class="bsbox">
     <div class="bsh"></div>
@@ -238,6 +261,7 @@ button{cursor:pointer;}
 </div>
 
 <!-- Тема -->
+
 <div id="thOv" onclick="closeTh()"></div>
 <div id="thSh">
   <div class="bsh" style="margin-top:12px;"></div>
@@ -248,6 +272,8 @@ button{cursor:pointer;}
     <div class="sw" id="dsw"><div class="swk"></div></div>
   </div>
 </div>
+
+<input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(event)"/>
 
 <script>
 // ── КОНСТАНТЫ ──
@@ -264,6 +290,48 @@ let D={habits:[],log:{}}, tab="today";
 let cw=wkKey(new Date());
 let ti=+(localStorage.getItem("hab_ti")||0), dk=localStorage.getItem("hab_dk")==="1";
 let editHabitIdx=-1, editColor=0, editFreq="daily", editCustomDays=[0,1,2,3,4];
+let editIcon="⭐";
+
+const EMOJI_LIST=["⭐","🏃","💧","📚","🧘","💪","🍎","😴","☀️","🎯","💊","🌱","✍️","🎨","🎵","🚴","🏋️","🧠","☕","🥗","🦷","🛌","💻","📱","🚶","🏊","🎸","🎮","🍵","🥦","🥛","🍇","📖","🌿","🌞","🌙","⛹️","🏆","✨","🔥","💡","🎓","💼","📝","🧹","🛁","🪥","💰","❤️","😊","🙏","🌸","🌳","🐕","🐈","☘️"];
+
+function buildEmojiPicker(){
+  document.getElementById("emoji-picker").innerHTML=EMOJI_LIST.map(em=>
+    `<button class="emoji-btn ${em===editIcon?"on":""}" onclick="pickIcon('${em}')">${em}</button>`
+  ).join("");
+  document.getElementById("emoji-current").textContent=editIcon;
+}
+function pickIcon(em){editIcon=em;buildEmojiPicker();}
+
+function exportData(){
+  const dataStr=JSON.stringify(D,null,2);
+  const blob=new Blob([dataStr],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="habits-backup-"+todayStr()+".json";a.click();
+  URL.revokeObjectURL(url);
+}
+function importData(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const imported=JSON.parse(e.target.result);
+      if(imported.habits&&imported.log){
+        if(confirm("Заменить все текущие данные?")){
+          D=imported;save();render();alert("✅ Данные импортированы!");
+        }
+      } else alert("❌ Неверный формат файла");
+    }catch(err){alert("❌ Ошибка чтения файла");}
+  };
+  reader.readAsText(file);
+  event.target.value="";
+}
+function confirmReset(){
+  if(confirm("⚠️ Удалить ВСЕ привычки и записи?\nЭто действие нельзя отменить!")){
+    D={habits:[],log:{}};save();render();
+  }
+}
 
 function load(){try{D=JSON.parse(localStorage.getItem(SK)||'{"habits":[],"log":{}}');}catch(e){D={habits:[],log:{}};}}
 function save(){try{localStorage.setItem(SK,JSON.stringify(D));}catch(e){}}
@@ -572,22 +640,56 @@ function renderStats(){
 
 // ── УПРАВЛЕНИЕ ──
 function renderManage(){
-  if(!D.habits.length)return`<div style="height:12px"></div><div class="empty"><div class="empty-i">⚙️</div>Нет привычек.<br>Нажмите + чтобы добавить!</div>`;
-  const rows=D.habits.map((h,i)=>`
-    <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);">
-      <div style="width:40px;height:40px;border-radius:12px;background:${h.color}22;
-        display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${h.icon||"⭐"}</div>
-      <div style="flex:1">
-        <div style="font-size:15px;font-weight:700">${esc(h.name)}</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:2px">
-          ${h.freq==="daily"?"Каждый день":h.freq==="weekdays"?"Пн–Пт":h.freq==="weekend"?"Сб–Вс":"Свои дни"}
-          ${h.remind?" · 🕐"+h.remind:""}
+  const total=D.habits.length;
+  const totalLogs=Object.keys(getLog()).length;
+  let habitsCard='';
+  if(!total){
+    habitsCard=`<div class="empty"><div class="empty-i">⚙️</div>Нет привычек.<br>Нажмите + чтобы добавить!</div>`;
+  } else {
+    const rows=D.habits.map((h,i)=>`
+      <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);">
+        <div style="width:40px;height:40px;border-radius:12px;background:${h.color}22;
+          display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">${h.icon||"⭐"}</div>
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:700">${esc(h.name)}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">
+            ${h.freq==="daily"?"Каждый день":h.freq==="weekdays"?"Пн–Пт":h.freq==="weekend"?"Сб–Вс":"Свои дни"}
+            ${h.remind?" · 🕐"+h.remind:""}
+          </div>
         </div>
-      </div>
-      <button onclick="openEditHabit(${i})" style="border:none;background:var(--inp);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;color:var(--muted);">Изменить</button>
-    </div>`).join("");
+        <button onclick="openEditHabit(${i})" style="border:none;background:var(--inp);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;color:var(--muted);">Изменить</button>
+      </div>`).join("");
+    habitsCard=`<div class="card"><div class="ch"><span class="ct">Мои привычки</span><span class="cb">${total}</span></div>${rows}</div>`;
+  }
   return`<div style="height:12px"></div>
-    <div class="card"><div class="ch"><span class="ct">Мои привычки</span><span class="cb">${D.habits.length}</span></div>${rows}</div>`;
+    ${habitsCard}
+    <div class="card">
+      <div class="ch"><span class="ct">⚙️ Настройки</span></div>
+      <div class="set-row" onclick="exportData()">
+        <div class="set-icon">📥</div>
+        <div class="set-info">
+          <div class="set-name">Экспорт данных</div>
+          <div class="set-desc">Сохранить резервную копию</div>
+        </div>
+        <div class="set-arrow">›</div>
+      </div>
+      <div class="set-row" onclick="document.getElementById('import-input').click()">
+        <div class="set-icon">📤</div>
+        <div class="set-info">
+          <div class="set-name">Импорт данных</div>
+          <div class="set-desc">Восстановить из файла</div>
+        </div>
+        <div class="set-arrow">›</div>
+      </div>
+      <div class="set-row" onclick="confirmReset()">
+        <div class="set-icon" style="background:rgba(255,59,48,.15)">🗑</div>
+        <div class="set-info">
+          <div class="set-name" style="color:#ff3b30">Сбросить все данные</div>
+          <div class="set-desc">${total} привычек · ${totalLogs} записей</div>
+        </div>
+        <div class="set-arrow">›</div>
+      </div>
+    </div>`;
 }
 
 // ── РЕДАКТОР ПРИВЫЧЕК ──
@@ -617,13 +719,13 @@ function toggleCustomDay(i){
 
 function openNewHabit(){
   editHabitIdx=-1;editColor=0;editFreq="daily";editCustomDays=[0,1,2,3,4];
+  editIcon="⭐";
   document.getElementById("habit-sheet-title").textContent="Новая привычка";
   document.getElementById("h-name").value="";
-  document.getElementById("h-icon").value="";
   document.getElementById("h-goal").value="";
   document.getElementById("h-remind").value="";
   document.getElementById("h-del-btn").style.display="none";
-  buildColorGrid();setFreq("daily");
+  buildColorGrid();buildEmojiPicker();setFreq("daily");
   openBSheet("habitSheet");
 }
 function openEditHabit(i){
@@ -632,13 +734,13 @@ function openEditHabit(i){
   editColor=HABIT_COLORS.indexOf(h.color);if(editColor<0)editColor=0;
   editFreq=h.freq||"daily";
   editCustomDays=h.customDays||[0,1,2,3,4];
+  editIcon=h.icon||"⭐";
   document.getElementById("habit-sheet-title").textContent="Изменить привычку";
   document.getElementById("h-name").value=h.name||"";
-  document.getElementById("h-icon").value=h.icon||"";
   document.getElementById("h-goal").value=h.goal||"";
   document.getElementById("h-remind").value=h.remind||"";
   document.getElementById("h-del-btn").style.display="block";
-  buildColorGrid();setFreq(editFreq);
+  buildColorGrid();buildEmojiPicker();setFreq(editFreq);
   [0,1,2,3,4,5,6].forEach(d=>{
     document.getElementById("cd-"+d)?.classList.toggle("on",editCustomDays.includes(d));
   });
@@ -650,7 +752,7 @@ function saveHabit(){
   const habit={
     id:editHabitIdx>=0?D.habits[editHabitIdx].id:"h"+Date.now(),
     name,
-    icon:document.getElementById("h-icon").value.trim()||"⭐",
+    icon:editIcon||"⭐",
     color:HABIT_COLORS[editColor]||HABIT_COLORS[0],
     freq:editFreq,
     customDays:[...editCustomDays],
@@ -692,5 +794,6 @@ window.addEventListener("beforeunload",save);
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")save();});
 window.addEventListener("resize",renderHeader);
 </script>
+
 </body>
 </html>

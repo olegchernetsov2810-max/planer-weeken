@@ -58,8 +58,8 @@
 #hdr {
 flex-shrink: 0;
 background: var(–card);
-border-bottom: 1px solid var(–border);
 padding-top: var(–st);
+box-shadow: 0 1px 0 var(–border);
 }
 .h1 {
 display: flex;
@@ -91,7 +91,7 @@ align-items: center;
 gap: 8px;
 padding: 8px 16px;
 background: var(–card);
-border-bottom: 1px solid var(–border);
+box-shadow: 0 1px 0 var(–border);
 }
 .warr {
 width: 40px;
@@ -155,6 +155,7 @@ flex: 1;
 overflow-y: auto;
 -webkit-overflow-scrolling: touch;
 padding: 12px 0 calc(140px + var(–sb));
+background: var(–bg);
 }
 #content::-webkit-scrollbar {
 display: none;
@@ -165,6 +166,7 @@ background: var(–card);
 border-radius: 16px;
 margin: 0 16px 12px;
 overflow: hidden;
+box-shadow: 0 1px 4px rgba(0,0,0,.08);
 }
 .ch {
 padding: 12px 16px;
@@ -339,10 +341,10 @@ bottom: 0;
 left: 0;
 right: 0;
 background: var(–card);
-border-top: 1px solid var(–border);
 display: flex;
 padding-bottom: var(–sb);
 z-index: 100;
+box-shadow: 0 -1px 0 var(–border), 0 -4px 16px rgba(0,0,0,.04);
 }
 .tb {
 flex: 1;
